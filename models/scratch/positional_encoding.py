@@ -2,6 +2,7 @@
 Sinusoidal Positional Encoding.
 Owner: Hoàng Lâm Tùng (24021661)
 """
+
 import torch
 import torch.nn as nn
 

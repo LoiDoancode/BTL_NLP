@@ -2,6 +2,7 @@
 Padding Mask & Causal (Look-Ahead) Mask.
 Owner: Hoàng Lâm Tùng (24021661)
 """
+
 import torch
 
 

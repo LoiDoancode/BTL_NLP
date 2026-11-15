@@ -3,6 +3,7 @@ TransformerEncoder, TransformerDecoder & Seq2Seq Transformer (hỗ trợ Weight 
 Không sử dụng torch.nn.Transformer.
 Owner: Hoàng Lâm Tùng (24021661)
 """
+
 import torch
 import torch.nn as nn
 
