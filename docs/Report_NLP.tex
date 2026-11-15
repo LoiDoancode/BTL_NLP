@@ -1,0 +1,206 @@
+\documentclass[10pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{stix}
+\usepackage{microtype}
+
+\usepackage[a4paper, top=0.95in, bottom=0.8in, left=0.8in, right=0.8in, headheight=18pt, headsep=12pt, footskip=12pt]{geometry}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+
+% --- Bảng màu đơn sắc (chữ đen chuẩn báo cáo) ---
+\definecolor{ieeeheaderbg}{RGB}{235, 235, 235}
+
+% --- Cấu hình Header ---
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[C]{%
+  \setlength{\fboxsep}{3pt}%
+  \colorbox{ieeeheaderbg}{%
+    \parbox{\dimexpr\textwidth-6pt\relax}{%
+      \footnotesize\color{black}%
+      NLP Course Project (UET-VNU)\hfill End-to-End Knowledge Graph Extraction on WebNLG+%
+    }%
+  }\\[-2pt]%
+  {\color{black!70}\rule{\textwidth}{0.6pt}}%
+}
+\fancyfoot[C]{\footnotesize\thepage}
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \fancyhead[C]{%
+    \setlength{\fboxsep}{3pt}%
+    \colorbox{ieeeheaderbg}{%
+      \parbox{\dimexpr\textwidth-6pt\relax}{%
+        \footnotesize\color{black}%
+        NLP Course Project (UET-VNU)\hfill End-to-End Knowledge Graph Extraction on WebNLG+%
+      }%
+    }\\[-2pt]%
+    {\color{black!70}\rule{\textwidth}{0.6pt}}%
+  }%
+  \fancyfoot[C]{\footnotesize\thepage}%
+}
+
+% --- Định dạng Section / Subsection / Subsubsection theo cỡ chữ chuẩn cas-sc ---
+\titleformat{\section}
+  {\rmfamily\fontsize{12pt}{14pt}\bfseries}
+  {\thesection.}{0.5em}{}
+\titlespacing*{\section}{0pt}{12pt}{4pt}
+
+\titleformat{\subsection}
+  {\rmfamily\fontsize{11pt}{13pt}\bfseries}
+  {\thesubsection.}{0.5em}{}
+\titlespacing*{\subsection}{0pt}{10pt}{3pt}
+
+\titleformat{\subsubsection}
+  {\rmfamily\fontsize{10.5pt}{12pt}\bfseries\itshape}
+  {\thesubsubsection.}{0.5em}{}
+\titlespacing*{\subsubsection}{0pt}{8pt}{2pt}
+
+% --- Định nghĩa môi trường Abstract & Index Terms ---
+\renewenvironment{abstract}{%
+  \begin{list}{}{\leftmargin=0.45in \rightmargin=0.45in \listparindent=0pt \parsep=0pt}%
+  \item\relax\small\noindent\textbf{Abstract:}\hspace{0.4em}%
+}{%
+  \end{list}%
+}
+
+\newenvironment{IEEEkeywords}{%
+  \begin{list}{}{\leftmargin=0.45in \rightmargin=0.45in \listparindent=0pt \parsep=0pt}%
+  \item\relax\small\noindent\textbf{Index Terms:}\hspace{0.4em}%
+}{%
+  \end{list}%
+}
+
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{0pt plus 1pt}
+
+% Ghi chú người phụ trách (xóa lệnh này và các dòng \todo khi viết xong)
+\newcommand{\todo}[1]{\par\noindent\textit{[#1]}\par}
+
+\begin{document}
+
+% --- Khối Tiêu đề, Tác giả, Đơn vị, Đường kẻ ---
+\begin{center}
+  {\LARGE\bfseries
+    End-to-End Knowledge Graph Extraction from Unstructured Text:\\[3pt]
+    Comparative Study of From-Scratch Transformers and PEFT of Small LLMs on WebNLG+
+  }\\[14pt]
+
+  {\normalsize\bfseries
+    Doan Duy Loi, Hoang Lam Tung, Nguyen Chi Phong, and Bui Thi Bich Phuong
+  }\\[6pt]
+
+  {\small\itshape
+    University of Engineering and Technology, Vietnam National University, Hanoi, Vietnam
+  }\\[8pt]
+
+  {\footnotesize\itshape
+    Natural Language Processing (NLP) Course Project --- UET-VNU\\
+    GitHub Repository: \url{https://github.com/LoiDoancode/BTL_NLP}
+  }
+\end{center}
+
+\vspace{6pt}
+\noindent\begin{list}{}{\leftmargin=0.45in \rightmargin=0.45in}
+  \item\relax\footnotesize
+  Team Members: Doan Duy Loi (24021549), Hoang Lam Tung (24021661), Nguyen Chi Phong (24020268), Bui Thi Bich Phuong (24021601). Dataset: WebNLG+ 2020 (\texttt{GEM/web\_nlg}).
+\end{list}
+\vspace{2pt}
+\noindent{\color{black!65}\rule{\textwidth}{0.8pt}}
+\vspace{6pt}
+
+\begin{abstract}
+\todo{TODO (Doan Duy Loi): Summarize the Text-to-Triples problem, the two parallel approaches (From-Scratch Transformer and 2 Pretrained LLMs < 6B), key enhancements, and main Micro F1 / Exact-Set Accuracy results.}
+\end{abstract}
+
+\begin{IEEEkeywords}
+Knowledge Graph Construction, Text-to-Triples, Transformer, QLoRA, Small LLMs, WebNLG+.
+\end{IEEEkeywords}
+
+\vspace{6pt}
+
+\section{Introduction}
+\todo{TODO (Doan Duy Loi): Background on Knowledge Graph construction from unstructured text, challenges (multi-triple sentences, overlapping relations, hallucination), and group contributions.}
+
+\section{Related Work}
+\todo{TODO (Doan Duy Loi): Survey classical RE/NER pipelines, Seq2Seq triple generation, Transformer Base (Vaswani et al., 2017), and Pretrained LLMs with PEFT (LoRA/QLoRA).}
+
+\section{Methodology}
+
+\subsection{Problem Formulation and Data Preprocessing}
+\todo{TODO (Doan Duy Loi): WebNLG+ 2020 (GEM/web\_nlg) preprocessing, triplet linearization format (s | p | o), and Custom BPE Tokenizer trained solely on the training split.}
+
+\subsection{From-Scratch Encoder--Decoder Transformer}
+\todo{TODO (Hoang Lam Tung): Pure PyTorch implementation (no nn.Transformer); baseline 6 enc / 6 dec layers, d\_model = 512, 8 heads, d\_ff = 2048.}
+
+\subsubsection{Core Attention and Layer Architecture}
+\todo{TODO (Hoang Lam Tung): Scaled Dot-Product Attention, Multi-Head Attention, Positional Encoding, FFN, Padding Mask, Causal Mask, and parameter count.}
+
+\subsubsection{Architectural and Training Enhancements}
+\todo{TODO (Hoang Lam Tung \& Doan Duy Loi): Pre-LayerNorm (Pre-LN), Weight Tying, Label Smoothing (eps = 0.1), Teacher Forcing, Curriculum Learning, Greedy \& Beam Search (B = 4).}
+
+\subsection{Parameter-Efficient Fine-Tuning of Pretrained LLMs (< 6B)}
+\todo{TODO (Nguyen Chi Phong): Supervised Fine-Tuning on 2 Pretrained LLMs strictly under 6B parameters.}
+
+\subsubsection{Model Selection Criteria (< 6B Parameters)}
+\todo{TODO (Nguyen Chi Phong): Overview of the 2 selected < 6B LLMs, parameter counts, VRAM constraints (<= 14 GB on T4), and selection rationale.}
+
+\subsubsection{QLoRA Setup and Target-Only Loss Masking}
+\todo{TODO (Nguyen Chi Phong): 4-bit NF4 quantization, LoRA rank/alpha/dropout, target modules, and prompt token masking (label = -100).}
+
+\subsubsection{Triplet Sorting Normalization and Entity-First CoT Prompting}
+\todo{TODO (Nguyen Chi Phong): Prompt template, subject-order triplet sorting, and Entity-First Chain-of-Thought prompting.}
+
+\subsection{Post-Processing, Hallucination Filtering, and Knowledge Graph Fusion}
+\todo{TODO (Bui Thi Bich Phuong): Output parsing, Entity Hallucination Filter, deduplication, and KG Fusion (.gexf / .json).}
+
+\section{Experiments and Results}
+
+\subsection{Dataset Statistics and Experimental Setup}
+\todo{TODO (Bui Thi Bich Phuong \& Team): Train/val/test split statistics, max sequence lengths, seeds, hardware configurations, and hyperparameter summary table.}
+
+\subsection{Evaluation Metrics}
+\todo{TODO (Bui Thi Bich Phuong): Full-triple Micro Precision/Recall/F1 (deduplicated predictions, order-invariant), Macro F1, Exact-Set Accuracy, and unparseable output rate.}
+
+\subsection{Quantitative Comparison and Computational Cost}
+\todo{TODO (Bui Thi Bich Phuong \& Team): Comparison table across 3 models (Scratch vs. LLM-1 < 6B vs. LLM-2 < 6B), ablation results, training/validation loss curves, peak VRAM, training time, and inference latency.}
+
+\subsection{Qualitative Examples and KG Visualization}
+\todo{TODO (Bui Thi Bich Phuong): Case studies comparing generated triples and visual excerpt of the fused Knowledge Graph.}
+
+\section{Discussion and Error Analysis}
+
+\subsection{Performance by Triple Count (1, 2, \texorpdfstring{$\ge$}{>=} 3) and Domain}
+\todo{TODO (Bui Thi Bich Phuong): Stratified error breakdown by sentence complexity and WebNLG+ category.}
+
+\subsection{Hallucination, Omission, and Formatting Errors}
+\todo{TODO (Bui Thi Bich Phuong): Analysis of entity/relation errors, hallucination filter impact, and unparseable outputs.}
+
+\subsection{From-Scratch Transformer vs. Pretrained LLMs (< 6B)}
+\todo{TODO (Bui Thi Bich Phuong): Trade-offs in accuracy, generalization, and hardware cost.}
+
+\section{Conclusion}
+\todo{TODO (Bui Thi Bich Phuong): Summary of findings, limitations, future work, and final GitHub repository link.}
+
+\section*{Acknowledgements}
+\todo{TODO (Team): Optional acknowledgements.}
+
+\bibliographystyle{IEEEtran}
+\begin{thebibliography}{9}
+
+\bibitem{vaswani2017attention}
+A.~Vaswani \emph{et~al.}, ``Attention is all you need,'' in \emph{Proc. NeurIPS}, 2017.
+
+\end{thebibliography}
+
+\end{document}
