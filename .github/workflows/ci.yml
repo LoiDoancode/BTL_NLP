@@ -59,14 +59,18 @@ jobs:
       - name: Enforce From-Scratch rule (no nn.Transformer in models/scratch)
         run: |
           python -c "
-          import pathlib, sys
+          import ast, pathlib, sys
           violations = []
           for p in pathlib.Path('models/scratch').rglob('*.py'):
-              text = p.read_text(encoding='utf-8')
-              if 'nn.Transformer' in text or 'torch.nn.Transformer' in text:
-                  violations.append(str(p))
+              tree = ast.parse(p.read_text(encoding='utf-8'), filename=str(p))
+              for node in ast.walk(tree):
+                  if isinstance(node, ast.ImportFrom) and node.module in ('torch.nn', 'torch.nn.modules.transformer'):
+                      if any(alias.name == 'Transformer' for alias in node.names):
+                          violations.append(str(p))
+                  elif isinstance(node, ast.Attribute) and node.attr == 'Transformer':
+                      violations.append(str(p))
           if violations:
-              print('ERROR: torch.nn.Transformer is forbidden in models/scratch/:', violations)
+              print('ERROR: torch.nn.Transformer is forbidden in models/scratch/:', sorted(set(violations)))
               sys.exit(1)
           print('OK: No nn.Transformer usage found in models/scratch/.')
           "

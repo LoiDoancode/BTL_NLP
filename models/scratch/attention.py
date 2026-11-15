@@ -11,7 +11,13 @@ class ScaledDotProductAttention(nn.Module):
         super().__init__()
         self.dropout = nn.Dropout(dropout)
 
-    def forward(self, q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, mask: torch.Tensor | None = None):
+    def forward(
+        self,
+        q: torch.Tensor,
+        k: torch.Tensor,
+        v: torch.Tensor,
+        mask: torch.Tensor | None = None,
+    ):
         raise NotImplementedError
 
 
@@ -23,5 +29,11 @@ class MultiHeadAttention(nn.Module):
         self.n_heads = n_heads
         self.d_k = d_model // n_heads
 
-    def forward(self, q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, mask: torch.Tensor | None = None):
+    def forward(
+        self,
+        q: torch.Tensor,
+        k: torch.Tensor,
+        v: torch.Tensor,
+        mask: torch.Tensor | None = None,
+    ):
         raise NotImplementedError

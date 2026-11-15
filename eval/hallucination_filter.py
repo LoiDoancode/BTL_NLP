@@ -4,5 +4,7 @@ Owner: Bùi Thị Bích Phượng (24021601)
 """
 
 
-def filter_hallucinations(text: str, triples: list[tuple[str, str, str]]) -> list[tuple[str, str, str]]:
+def filter_hallucinations(
+    text: str, triples: list[tuple[str, str, str]]
+) -> list[tuple[str, str, str]]:
     raise NotImplementedError
