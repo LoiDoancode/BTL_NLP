@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 690" width="880" height="690">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#555555" />
+    </marker>
+    <marker id="arrow-dashed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#555555" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#ffffff" />
+
+  <!-- ================= CONTAINER 1 (TUAN 1) ================= -->
+  <g transform="translate(30, 25)">
+    <rect width="820" height="130" rx="2" fill="#fff9e6" stroke="#d6b656" stroke-width="1.5" />
+    <text x="410" y="22" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#665500" text-anchor="middle">Tuần 1: Setup &amp; From-Scratch (11/11 - 17/11)</text>
+  </g>
+
+  <!-- Tuan 1 Card 1 -->
+  <g transform="translate(65, 63)">
+    <rect x="2" y="2" width="220" height="68" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="220" height="68" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="110" y="30" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Tiền xử lý WebNLG+ 2020</text>
+    <text x="110" y="50" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#2c2c2c" text-anchor="middle">&amp; Train BPE Tokenizer</text>
+  </g>
+
+  <!-- Arrow T1 C1 -> C2 -->
+  <path d="M 285 97 L 324 97" fill="none" stroke="#555555" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Tuan 1 Card 2 -->
+  <g transform="translate(330, 63)">
+    <rect x="2" y="2" width="220" height="68" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="220" height="68" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="110" y="30" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Lập trình Core Transformer</text>
+    <text x="110" y="50" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">(Attn, FFN, Masks)</text>
+  </g>
+
+  <!-- Arrow T1 C2 -> C3 -->
+  <path d="M 550 97 L 589 97" fill="none" stroke="#555555" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Tuan 1 Card 3 -->
+  <g transform="translate(595, 63)">
+    <rect x="2" y="2" width="220" height="68" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="220" height="68" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="110" y="23" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Huấn luyện &amp; lưu</text>
+    <text x="110" y="41" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">checkpoint Baseline</text>
+    <text x="110" y="59" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">Transformer</text>
+  </g>
+
+  <!-- Vertical dashed arrow: T1 -> T2 -->
+  <path d="M 440 155 L 440 189" fill="none" stroke="#555555" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrow-dashed)" />
+
+
+  <!-- ================= CONTAINER 2 (TUAN 2) ================= -->
+  <g transform="translate(30, 190)">
+    <rect width="820" height="130" rx="2" fill="#fff9e6" stroke="#d6b656" stroke-width="1.5" />
+    <text x="410" y="22" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#665500" text-anchor="middle">Tuần 2: LLMs SFT &amp; Cải tiến (18/11 - 24/11)</text>
+  </g>
+
+  <!-- Tuan 2 Card 1 -->
+  <g transform="translate(65, 228)">
+    <rect x="2" y="2" width="220" height="68" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="220" height="68" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="110" y="23" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Pipeline QLoRA 4-bit cho</text>
+    <text x="110" y="41" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">Qwen2.5-3B &amp; Llama-3.2-</text>
+    <text x="110" y="59" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">3B</text>
+  </g>
+
+  <!-- Arrow T2 C1 -> C2 -->
+  <path d="M 285 262 L 324 262" fill="none" stroke="#555555" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Tuan 2 Card 2 -->
+  <g transform="translate(330, 228)">
+    <rect x="2" y="2" width="220" height="68" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="220" height="68" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="110" y="30" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Cải tiến From-Scratch (Pre-</text>
+    <text x="110" y="50" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">LN, Weight Tying)</text>
+  </g>
+
+  <!-- Arrow T2 C2 -> C3 -->
+  <path d="M 550 262 L 589 262" fill="none" stroke="#555555" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Tuan 2 Card 3 -->
+  <g transform="translate(595, 228)">
+    <rect x="2" y="2" width="220" height="68" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="220" height="68" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="110" y="30" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Thử nghiệm Entity-Guided</text>
+    <text x="110" y="50" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">CoT &amp; Chuẩn hóa Target</text>
+  </g>
+
+  <!-- Vertical dashed arrow: T2 -> T3 -->
+  <path d="M 440 320 L 440 354" fill="none" stroke="#555555" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrow-dashed)" />
+
+
+  <!-- ================= CONTAINER 3 (TUAN 3) ================= -->
+  <g transform="translate(30, 355)">
+    <rect width="820" height="130" rx="2" fill="#fff9e6" stroke="#d6b656" stroke-width="1.5" />
+    <text x="410" y="22" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#665500" text-anchor="middle">Tuần 3: Đánh giá &amp; KG Fusion (25/11 - 01/12)</text>
+  </g>
+
+  <!-- Tuan 3 Card 1 -->
+  <g transform="translate(65, 393)">
+    <rect x="2" y="2" width="220" height="68" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="220" height="68" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="110" y="24" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Chạy bộ metric</text>
+    <text x="110" y="42" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">Micro/Macro F1, Exact</text>
+    <text x="110" y="60" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">Match</text>
+  </g>
+
+  <!-- Arrow T3 C1 -> C2 -->
+  <path d="M 285 427 L 324 427" fill="none" stroke="#555555" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Tuan 3 Card 2 -->
+  <g transform="translate(330, 393)">
+    <rect x="2" y="2" width="220" height="68" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="220" height="68" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="110" y="30" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Module hợp nhất đồ thị tri</text>
+    <text x="110" y="50" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">thức (KG Construction)</text>
+  </g>
+
+  <!-- Arrow T3 C2 -> C3 -->
+  <path d="M 550 427 L 589 427" fill="none" stroke="#555555" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Tuan 3 Card 3 -->
+  <g transform="translate(595, 393)">
+    <rect x="2" y="2" width="220" height="68" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="220" height="68" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="110" y="30" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Phân tích lỗi chi tiết &amp;</text>
+    <text x="110" y="50" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">xuất bảng kết quả</text>
+  </g>
+
+  <!-- Vertical dashed arrow: T3 -> T4 -->
+  <path d="M 440 485 L 440 519" fill="none" stroke="#555555" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrow-dashed)" />
+
+
+  <!-- ================= CONTAINER 4 (TUAN 4) ================= -->
+  <g transform="translate(30, 520)">
+    <rect width="820" height="130" rx="2" fill="#fff9e6" stroke="#d6b656" stroke-width="1.5" />
+    <text x="410" y="22" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#665500" text-anchor="middle">Tuần 4: Báo cáo IEEE &amp; Thuyết trình (02/12 - 08/12)</text>
+  </g>
+
+  <!-- Tuan 4 Card 1 -->
+  <g transform="translate(65, 558)">
+    <rect x="2" y="2" width="220" height="68" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="220" height="68" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="110" y="30" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Viết báo cáo IEEE LaTeX</text>
+    <text x="110" y="50" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">(&gt;= 6 trang Tiếng Anh)</text>
+  </g>
+
+  <!-- Arrow T4 C1 -> C2 -->
+  <path d="M 285 592 L 324 592" fill="none" stroke="#555555" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Tuan 4 Card 2 -->
+  <g transform="translate(330, 558)">
+    <rect x="2" y="2" width="220" height="68" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="220" height="68" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="110" y="30" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Thiết kế Slide thuyết trình</text>
+    <text x="110" y="50" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">chuyên nghiệp</text>
+  </g>
+
+  <!-- Arrow T4 C2 -> C3 -->
+  <path d="M 550 592 L 589 592" fill="none" stroke="#555555" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Tuan 4 Card 3 -->
+  <g transform="translate(595, 558)">
+    <rect x="2" y="2" width="220" height="68" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="220" height="68" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="110" y="30" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Đóng gói GitHub Repo,</text>
+    <text x="110" y="50" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">nghiệm thu &amp; nộp bài</text>
+  </g>
+
+</svg>

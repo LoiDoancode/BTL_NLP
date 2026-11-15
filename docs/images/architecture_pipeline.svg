@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 990" width="880" height="990">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#555555" />
+    </marker>
+    <marker id="arrow-dashed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#555555" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#ffffff" />
+
+  <!-- TOP NODE: Doan van ban dau vao -->
+  <g transform="translate(65, 25)">
+    <!-- Shadow rect (Word-safe) -->
+    <rect x="2" y="2" width="210" height="60" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="210" height="60" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="105" y="27" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Đoạn văn bản đầu vào</text>
+    <text x="105" y="45" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">(WebNLG+ 2020)</text>
+  </g>
+
+  <!-- ================= TRACK 1 CONTAINER ================= -->
+  <g transform="translate(30, 125)">
+    <rect width="280" height="600" rx="2" fill="#fff9e6" stroke="#d6b656" stroke-width="1.5" />
+    <text x="12" y="22" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="bold" fill="#665500">PHƯƠNG PHÁP 1: From-Scratch Transformer</text>
+  </g>
+
+  <!-- Track 1 Node 1: Tokenization Pipeline -->
+  <g transform="translate(65, 155)">
+    <rect x="2" y="2" width="210" height="45" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="210" height="45" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="105" y="28" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Tokenization Pipeline</text>
+  </g>
+
+  <!-- Track 1 Node 2: Custom BPE Tokenizer -->
+  <g transform="translate(65, 245)">
+    <rect x="2" y="2" width="210" height="75" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="210" height="75" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="105" y="26" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Custom BPE Tokenizer</text>
+    <text x="105" y="44" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">(Huấn luyện riêng trên</text>
+    <text x="105" y="62" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">Train Set)</text>
+  </g>
+
+  <!-- Track 1 Node 3: Encoder-Decoder Transformer Base -->
+  <g transform="translate(65, 365)">
+    <rect x="2" y="2" width="210" height="95" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="210" height="95" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="105" y="26" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Encoder-Decoder</text>
+    <text x="105" y="44" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Transformer Base</text>
+    <text x="105" y="63" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">(6 Enc / 6 Dec,</text>
+    <text x="105" y="81" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">d_model=512, 8 heads)</text>
+  </g>
+
+  <!-- Track 1 Node 4: Cai tien Scratch -->
+  <g transform="translate(65, 510)">
+    <rect x="2" y="2" width="210" height="180" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="210" height="180" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="105" y="26" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Cải tiến:</text>
+    <text x="105" y="48" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">1. Pre-LayerNorm (Pre-LN)</text>
+    <text x="105" y="66" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">thay vì Post-LN</text>
+    <text x="105" y="88" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">2. Weight Tying</text>
+    <text x="105" y="106" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">(Embedding &amp; Linear Out)</text>
+    <text x="105" y="128" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">3. Label Smoothing Cross-</text>
+    <text x="105" y="146" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">Entropy</text>
+  </g>
+
+
+  <!-- ================= TRACK 2 CONTAINER ================= -->
+  <g transform="translate(345, 220)">
+    <rect width="505" height="505" rx="2" fill="#fff9e6" stroke="#d6b656" stroke-width="1.5" />
+    <text x="15" y="24" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="bold" fill="#665500">PHƯƠNG PHÁP 2: Pretrained LLM Supervised Fine-Tuning</text>
+  </g>
+
+  <!-- Track 2 Node 1: Prompt Template Chuan hoa -->
+  <g transform="translate(488, 255)">
+    <rect x="2" y="2" width="220" height="58" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="220" height="58" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="110" y="27" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Prompt Template Chuẩn</text>
+    <text x="110" y="45" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" fill="#2c2c2c" text-anchor="middle">hóa</text>
+  </g>
+
+  <!-- Track 2 Node 2A: Qwen2.5-3B-Instruct -->
+  <g transform="translate(370, 385)">
+    <rect x="2" y="2" width="210" height="65" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="210" height="65" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="105" y="28" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Qwen2.5-3B-Instruct</text>
+    <text x="105" y="47" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">(QLoRA 4-bit)</text>
+  </g>
+
+  <!-- Track 2 Node 2B: Llama-3.2-3B-Instruct -->
+  <g transform="translate(615, 385)">
+    <rect x="2" y="2" width="210" height="65" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="210" height="65" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="105" y="28" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Llama-3.2-3B-Instruct</text>
+    <text x="105" y="47" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">(QLoRA 4-bit)</text>
+  </g>
+
+  <!-- Track 2 Node 3: Cai tien LLM -->
+  <g transform="translate(488, 510)">
+    <rect x="2" y="2" width="220" height="180" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="220" height="180" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="110" y="26" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Cải tiến:</text>
+    <text x="110" y="48" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">1. Chain-of-Thought (CoT)</text>
+    <text x="110" y="66" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">Prompt: Entity First →</text>
+    <text x="110" y="84" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">Relation Next</text>
+    <text x="110" y="104" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">2. Triplet Ordering</text>
+    <text x="110" y="122" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">Normalization</text>
+    <text x="110" y="142" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">3. Masked Loss (Chỉ tính</text>
+    <text x="110" y="160" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#2c2c2c" text-anchor="middle">loss trên target tokens)</text>
+  </g>
+
+  <!-- ================= BOTTOM NODES ================= -->
+  <!-- Hau xu ly -->
+  <g transform="translate(345, 755)">
+    <rect x="2" y="2" width="215" height="62" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="215" height="62" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="107.5" y="27" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Hậu xử lý: Triplet Parsing</text>
+    <text x="107.5" y="47" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" fill="#2c2c2c" text-anchor="middle">&amp; Deduplication</text>
+  </g>
+
+  <!-- Danh gia -->
+  <g transform="translate(345, 860)">
+    <rect x="2" y="2" width="215" height="75" rx="4" fill="#000000" opacity="0.06" />
+    <rect width="215" height="75" rx="4" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.4" />
+    <text x="107.5" y="26" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Đánh giá: Micro/Macro F1,</text>
+    <text x="107.5" y="45" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Exact Match, Graph</text>
+    <text x="107.5" y="64" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#2c2c2c" text-anchor="middle">Construction</text>
+  </g>
+
+  <!-- ================= ARROWS / CONNECTORS ================= -->
+  <!-- Top to Track 1 Node 1 -->
+  <path d="M 170 85 L 170 153" fill="none" stroke="#555555" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Track 1 Node 1 to Track 1 Node 2 -->
+  <path d="M 170 200 L 170 243" fill="none" stroke="#555555" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Track 1 Node 2 to Track 1 Node 3 -->
+  <path d="M 170 320 L 170 363" fill="none" stroke="#555555" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Track 1 Node 3 to Track 1 Node 4 -->
+  <path d="M 170 460 L 170 508" fill="none" stroke="#555555" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Track 1 Node 1 to Track 2 Node 1 (Cross link) -->
+  <path d="M 235 200 C 235 240, 488 270, 486 280" fill="none" stroke="#555555" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Track 2 Node 1 to Node 2A (Qwen) -->
+  <path d="M 540 313 C 540 345, 475 350, 475 383" fill="none" stroke="#555555" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Track 2 Node 1 to Node 2B (Llama) -->
+  <path d="M 655 313 C 655 345, 720 350, 720 383" fill="none" stroke="#555555" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Track 2 Node 2A to Node 3 (Cai tien) -->
+  <path d="M 475 450 C 475 480, 545 485, 545 508" fill="none" stroke="#555555" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Track 2 Node 2B to Node 3 (Cai tien) -->
+  <path d="M 720 450 C 720 480, 650 485, 650 508" fill="none" stroke="#555555" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Track 1 Node 4 to Hau xu ly -->
+  <path d="M 170 690 C 170 740, 335 775, 343 782" fill="none" stroke="#555555" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Track 2 Node 3 to Hau xu ly -->
+  <path d="M 598 690 C 598 730, 480 740, 460 753" fill="none" stroke="#555555" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- Hau xu ly to Danh gia (dashed connector) -->
+  <path d="M 452 817 L 452 858" fill="none" stroke="#555555" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrow-dashed)" />
+
+</svg>

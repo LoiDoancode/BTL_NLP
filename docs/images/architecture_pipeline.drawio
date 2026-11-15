@@ -1,0 +1,145 @@
+<mxfile host="app.diagrams.net" modified="2026-11-11" agent="Draw.io" version="22.1.2">
+  <diagram id="pipeline" name="Text-to-Triples Pipeline">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="1100" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- TOP NODE -->
+        <mxCell id="node_input" value="&lt;b&gt;Đoạn văn bản đầu vào&lt;/b&gt;&lt;br&gt;(WebNLG+ 2020)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;fontFamily=Helvetica;fontColor=#2c2c2c;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="30" width="210" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- CONTAINER 1: PHUONG PHAP 1 -->
+        <mxCell id="group_t1" value="PHƯƠNG PHÁP 1: From-Scratch Transformer" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff9e6;strokeColor=#d6b656;strokeWidth=1.5;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontStyle=1;fontSize=12;fontFamily=Helvetica;fontColor=#665500;" vertex="1" parent="1">
+          <mxGeometry x="35" y="125" width="280" height="600" as="geometry" />
+        </mxCell>
+
+        <!-- Track 1 Box 1 -->
+        <mxCell id="t1_b1" value="Tokenization Pipeline" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;fontFamily=Helvetica;fontColor=#2c2c2c;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="155" width="210" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Track 1 Box 2 -->
+        <mxCell id="t1_b2" value="&lt;b&gt;Custom BPE Tokenizer&lt;/b&gt;&lt;br&gt;(Huấn luyện riêng trên&lt;br&gt;Train Set)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontFamily=Helvetica;fontColor=#2c2c2c;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="245" width="210" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- Track 1 Box 3 -->
+        <mxCell id="t1_b3" value="&lt;b&gt;Encoder-Decoder&lt;/b&gt;&lt;br&gt;Transformer Base&lt;br&gt;(6 Enc / 6 Dec,&lt;br&gt;d_model=512, 8 heads)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontFamily=Helvetica;fontColor=#2c2c2c;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="365" width="210" height="95" as="geometry" />
+        </mxCell>
+
+        <!-- Track 1 Box 4 -->
+        <mxCell id="t1_b4" value="&lt;b&gt;Cải tiến:&lt;/b&gt;&lt;br&gt;1. Pre-LayerNorm (Pre-LN)&lt;br&gt;thay vì Post-LN&lt;br&gt;2. Weight Tying&lt;br&gt;(Embedding &amp;amp; Linear Out)&lt;br&gt;3. Label Smoothing Cross-Entropy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontFamily=Helvetica;fontColor=#2c2c2c;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="510" width="210" height="180" as="geometry" />
+        </mxCell>
+
+
+        <!-- CONTAINER 2: PHUONG PHAP 2 -->
+        <mxCell id="group_t2" value="PHƯƠNG PHÁP 2: Pretrained LLM Supervised Fine-Tuning" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff9e6;strokeColor=#d6b656;strokeWidth=1.5;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontStyle=1;fontSize=12;fontFamily=Helvetica;fontColor=#665500;" vertex="1" parent="1">
+          <mxGeometry x="345" y="220" width="505" height="505" as="geometry" />
+        </mxCell>
+
+        <!-- Track 2 Box 1 -->
+        <mxCell id="t2_b1" value="Prompt Template Chuẩn&lt;br&gt;hóa" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;fontFamily=Helvetica;fontColor=#2c2c2c;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="255" width="215" height="58" as="geometry" />
+        </mxCell>
+
+        <!-- Track 2 Box 2A: Qwen -->
+        <mxCell id="t2_b2a" value="&lt;b&gt;Qwen2.5-3B-Instruct&lt;/b&gt;&lt;br&gt;(QLoRA 4-bit)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontFamily=Helvetica;fontColor=#2c2c2c;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="385" width="210" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Track 2 Box 2B: Llama -->
+        <mxCell id="t2_b2b" value="&lt;b&gt;Llama-3.2-3B-Instruct&lt;/b&gt;&lt;br&gt;(QLoRA 4-bit)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontFamily=Helvetica;fontColor=#2c2c2c;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="615" y="385" width="210" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Track 2 Box 3: Cai tien LLM -->
+        <mxCell id="t2_b3" value="&lt;b&gt;Cải tiến:&lt;/b&gt;&lt;br&gt;1. Chain-of-Thought (CoT)&lt;br&gt;Prompt: Entity First → Relation Next&lt;br&gt;2. Triplet Ordering Normalization&lt;br&gt;3. Masked Loss (Chỉ tính&lt;br&gt;loss trên target tokens)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontFamily=Helvetica;fontColor=#2c2c2c;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="510" width="215" height="180" as="geometry" />
+        </mxCell>
+
+
+        <!-- BOTTOM NODES -->
+        <!-- Hau xu ly -->
+        <mxCell id="b_hau_xu_ly" value="&lt;b&gt;Hậu xử lý: Triplet Parsing&lt;/b&gt;&lt;br&gt;&amp;amp; Deduplication" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;fontFamily=Helvetica;fontColor=#2c2c2c;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="345" y="755" width="215" height="62" as="geometry" />
+        </mxCell>
+
+        <!-- Danh gia -->
+        <mxCell id="b_danh_gia" value="&lt;b&gt;Đánh giá: Micro/Macro F1,&lt;/b&gt;&lt;br&gt;Exact Match, Graph&lt;br&gt;Construction" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;fontFamily=Helvetica;fontColor=#2c2c2c;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="345" y="860" width="215" height="75" as="geometry" />
+        </mxCell>
+
+
+        <!-- CONNECTORS / EDGES -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="node_input" target="t1_b1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="t1_b1" target="t1_b2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="t1_b2" target="t1_b3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="t1_b3" target="t1_b4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Cross link from Tokenization Pipeline to Prompt Template -->
+        <mxCell id="e_cross" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="t1_b1" target="t2_b1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="215" />
+              <mxPoint x="600" y="215" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="t2_b1" target="t2_b2a">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="t2_b1" target="t2_b2b">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="t2_b2a" target="t2_b3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="t2_b2b" target="t2_b3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Links to Hau xu ly -->
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="t1_b4" target="b_hau_xu_ly">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="175" y="786" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#555555;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="t2_b3" target="b_hau_xu_ly">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="786" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Dashed link to Danh gia -->
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#555555;strokeWidth=1.5;dashed=1;endArrow=block;endFill=1;" edge="1" parent="1" source="b_hau_xu_ly" target="b_danh_gia">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
