@@ -237,3 +237,17 @@ __marimo__/
 *.vrb
 *.xdv
 
+# Raw & processed datasets (regenerate via: python data/prepare_webnlg.py)
+data/raw/
+data/processed/*.json
+data/processed/*.csv
+
+# Model checkpoints & large binary weights (do not commit >50MB files)
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.safetensors
+outputs/checkpoints/scratch/
+
+
