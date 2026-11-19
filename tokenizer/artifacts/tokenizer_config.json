@@ -1,0 +1,25 @@
+{
+  "vocab_size": 15562,
+  "special_tokens": {
+    "pad": {
+      "token": "[PAD]",
+      "id": 0
+    },
+    "unk": {
+      "token": "[UNK]",
+      "id": 1
+    },
+    "bos": {
+      "token": "[BOS]",
+      "id": 2
+    },
+    "eos": {
+      "token": "[EOS]",
+      "id": 3
+    },
+    "sep": {
+      "token": "[SEP]",
+      "id": 4
+    }
+  }
+}

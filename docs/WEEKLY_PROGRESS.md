@@ -42,10 +42,10 @@
 **Đầu ra cần đạt (Deliverables):** Checkpoint Baseline Transformer, Log loss huấn luyện, Tokenizer artifact, Khung repo GitHub.
 
 ### 1. Doãn Duy Lợi (`24021549`) — *Data Pipeline & Training Strategy*
-- [ ] Khởi tạo cấu trúc mã nguồn chuẩn trên GitHub repo & cập nhật `README.md`.
-- [ ] Tải, làm sạch và chuẩn hóa tập dữ liệu WebNLG+ 2020 (`GEM/web_nlg`).
-- [ ] Huấn luyện Custom BPE Tokenizer (chỉ sử dụng tập `train` split) và lưu artifact.
-- [ ] Xây dựng khung vòng lặp huấn luyện (`train_scratch.py`): Teacher Forcing, Cross-Entropy Loss, AdamW + Warmup Scheduler.
+- [x] Khởi tạo cấu trúc mã nguồn chuẩn trên GitHub repo & cập nhật `README.md`.
+- [x] Tải, làm sạch và chuẩn hóa tập dữ liệu WebNLG+ 2020 (`GEM/web_nlg`).
+- [x] Huấn luyện Custom BPE Tokenizer (chỉ sử dụng tập `train` split) và lưu artifact.
+- [x] Xây dựng khung vòng lặp huấn luyện (`train_scratch.py`): Teacher Forcing, Cross-Entropy Loss, AdamW + Warmup Scheduler.
 
 ### 2. Hoàng Lâm Tùng (`24021661`) — *Transformer From-Scratch Core*
 - [ ] Cài đặt `ScaledDotProductAttention` & `MultiHeadAttention` bằng PyTorch thuần (không dùng `torch.nn.Transformer`).
@@ -66,7 +66,7 @@
 ### 📝 Tổng kết Tuần 1
 | Thành viên | Trạng thái | % Hoàn thành | Sản phẩm / Link Commit | Ghi chú / Vướng mắc |
 |------------|:----------:|:------------:|------------------------|---------------------|
-| Doãn Duy Lợi | ⬜ | 0% | | |
+| Doãn Duy Lợi | ✅ | 100% | `data/prepare_webnlg.py`, `tokenizer/train_bpe.py`, `train_scratch.py`, `data/README.md` | Hoàn thành sớm trước hạn bàn giao 19/11 & 21/11 |
 | Hoàng Lâm Tùng | ⬜ | 0% | | |
 | Nguyễn Chí Phong | ⬜ | 0% | | |
 | Bùi Thị Bích Phượng | ⬜ | 0% | | |
