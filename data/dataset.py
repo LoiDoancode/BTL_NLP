@@ -23,14 +23,6 @@ class WebNLGDataset(Dataset):
         max_length: int = 256,
         num_triples_filter: int | list[int] | str | None = None,
     ):
-        """
-        Args:
-            data_path: Đường dẫn file JSON đã tiền xử lý.
-            tokenizer: BPETokenizerWrapper instance.
-            max_length: Độ dài chuỗi tối đa sau khi tokenize.
-            num_triples_filter: Lọc mẫu theo số bộ ba phục vụ Curriculum Learning
-                                (ví dụ: 1, 2, '>=3', hoặc [1, 2]).
-        """
         self.data_path = Path(data_path)
         self.tokenizer = tokenizer
         self.max_length = max_length
@@ -42,7 +34,6 @@ class WebNLGDataset(Dataset):
         with open(self.data_path, encoding="utf-8") as f:
             raw_samples = json.load(f)
 
-        # Lọc mẫu theo Curriculum Learning (nếu được yêu cầu)
         self.samples = self._filter_samples(raw_samples, num_triples_filter)
 
     def _filter_samples(
@@ -83,7 +74,6 @@ class WebNLGDataset(Dataset):
             "num_triples": item.get("num_triples", len(item.get("triples", []))),
         }
 
-        # Nếu có tokenizer, thực hiện encode luôn
         if self.tokenizer is not None:
             src_enc = self.tokenizer.encode(
                 src_text,
@@ -142,20 +132,13 @@ def collate_fn(batch: list[dict[str, Any]], pad_id: int = PAD_ID) -> dict[str, A
         src_tensor = torch.tensor(padded_src, dtype=torch.long)
         tgt_tensor = torch.tensor(padded_tgt, dtype=torch.long)
 
-        # src_mask: [B, 1, 1, L_src] (True cho valid tokens, False cho pad)
         src_mask = (src_tensor != pad_id).unsqueeze(1).unsqueeze(2)
-
-        # Decoder padding mask: [B, 1, 1, L_tgt]
         tgt_pad_mask = (tgt_tensor != pad_id).unsqueeze(1).unsqueeze(2)
-
-        # Causal mask: [1, 1, L_tgt, L_tgt]
         causal_mask = (
             torch.tril(torch.ones((max_tgt_len, max_tgt_len), dtype=torch.bool))
             .unsqueeze(0)
             .unsqueeze(0)
         )
-
-        # Combined tgt_mask: [B, 1, L_tgt, L_tgt]
         tgt_mask = tgt_pad_mask & causal_mask
 
         res["src_ids"] = src_tensor

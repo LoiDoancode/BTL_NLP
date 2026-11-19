@@ -152,13 +152,11 @@ def create_model(
             pre_ln=scratch_cfg.get("use_pre_ln", True),
             weight_tying=scratch_cfg.get("weight_tying", True),
         )
-        # Test một forward thử xem đã implemented chưa
         dummy_src = torch.zeros((1, 2), dtype=torch.long)
         dummy_tgt = torch.zeros((1, 2), dtype=torch.long)
         model(dummy_src, dummy_tgt)
         model_name = "Custom PyTorch Seq2SeqTransformer (Tùng & Lợi)"
     except (NotImplementedError, Exception):
-        # Fallback baseline model để Lợi chạy kiểm thử vòng lặp huấn luyện độc lập
         model = SimpleSeq2SeqBaseline(
             vocab_size=vocab_size,
             d_model=min(256, scratch_cfg.get("d_model", 256)),
@@ -193,29 +191,21 @@ def train_one_epoch(
         if max_steps is not None and batch_idx >= max_steps:
             break
 
-        src_ids = batch["src_ids"].to(device)  # [B, L_src]
-        tgt_ids = batch["tgt_ids"].to(device)  # [B, L_tgt]
+        src_ids = batch["src_ids"].to(device)
+        tgt_ids = batch["tgt_ids"].to(device)
         src_mask = batch["src_mask"].to(device) if "src_mask" in batch else None
         tgt_mask = batch["tgt_mask"].to(device) if "tgt_mask" in batch else None
 
-        # Teacher Forcing:
-        # Decoder input là toàn bộ chuỗi trừ token cuối: tgt[:, :-1]
-        # Target nhãn dự đoán là toàn bộ chuỗi trừ token đầu [BOS]: tgt[:, 1:]
         decoder_input = tgt_ids[:, :-1]
         target_labels = tgt_ids[:, 1:]
 
         optimizer.zero_grad()
 
-        # Forward pass
-        logits = model(
-            src_ids, decoder_input, src_mask=src_mask, tgt_mask=tgt_mask
-        )  # [B, L_tgt-1, Vocab]
+        logits = model(src_ids, decoder_input, src_mask=src_mask, tgt_mask=tgt_mask)
 
-        # Tính Loss
         vocab_size = logits.size(-1)
         loss = criterion(logits.reshape(-1, vocab_size), target_labels.reshape(-1))
 
-        # Backward & Gradient Clipping
         loss.backward()
         if clip_grad_norm > 0:
             torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=clip_grad_norm)
@@ -224,7 +214,6 @@ def train_one_epoch(
         if scheduler is not None:
             scheduler.step()
 
-        # Thống kê loss
         num_valid_tokens = (target_labels != pad_id).sum().item()
         total_loss += loss.item() * num_valid_tokens
         total_tokens += max(1, num_valid_tokens)
@@ -310,7 +299,6 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    # 1. Đọc cấu hình
     with open(args.config, encoding="utf-8") as f:
         config = yaml.safe_load(f)
 
@@ -335,13 +323,11 @@ def main() -> None:
     print(f"Label Smoothing: {label_smoothing} | Max Length: {max_length}")
     print("=" * 70)
 
-    # 2. Nạp Tokenizer
     tok_dir = config.get("tokenizer", {}).get("save_dir", "tokenizer/artifacts")
     print(f"[*] Đang nạp Tokenizer từ: {tok_dir} ...")
     tokenizer = BPETokenizerWrapper.load(tok_dir)
     print(f"[OK] Tokenizer đã sẵn sàng! Vocab size = {tokenizer.vocab_size:,}")
 
-    # 3. Chuẩn bị DataLoader
     data_dir = Path(config.get("data", {}).get("processed_dir", "data/processed"))
     train_file = data_dir / "train.json"
     val_file = data_dir / "val.json"
@@ -370,12 +356,10 @@ def main() -> None:
         f"[OK] Đã nạp thành công: {len(train_loader)} train batches, {len(val_loader)} val batches."
     )
 
-    # 4. Khởi tạo Mô hình
     model, model_desc = create_model(config, tokenizer.vocab_size, device)
     print(f"[*] Mô hình: {model_desc}")
     print(f"[*] Tổng số tham số có thể huấn luyện: {model.count_parameters():,}")
 
-    # 5. Loss & Optimizer & Scheduler
     criterion = nn.CrossEntropyLoss(ignore_index=PAD_ID, label_smoothing=label_smoothing)
     optimizer = AdamW(model.parameters(), lr=lr, betas=(0.9, 0.98), eps=1e-9, weight_decay=1e-4)
     warmup_steps = scratch_cfg.get("warmup_steps", 4000)
@@ -383,7 +367,6 @@ def main() -> None:
         optimizer, d_model=scratch_cfg.get("d_model", 512), warmup_steps=warmup_steps
     )
 
-    # 6. Bắt đầu Vòng lặp Huấn luyện
     best_val_loss = float("inf")
     train_history = []
     max_steps_per_epoch = 2 if args.dry_run else None
@@ -417,14 +400,12 @@ def main() -> None:
         epoch_time = time.time() - epoch_start
         curr_lr = scheduler.get_last_lr()[0] if scheduler else lr
 
-        # Lưu checkpoint tốt nhất khi val_loss cải thiện
         is_best = val_loss < best_val_loss
         if is_best:
             best_val_loss = val_loss
             best_ckpt = checkpoint_dir / "best_model.pt"
             save_checkpoint(best_ckpt, model, optimizer, epoch, val_loss, train_loss, config)
 
-        # Lưu latest checkpoint
         latest_ckpt = checkpoint_dir / "latest_model.pt"
         save_checkpoint(latest_ckpt, model, optimizer, epoch, val_loss, train_loss, config)
 
@@ -448,7 +429,6 @@ def main() -> None:
             f"Time: {epoch_time:.1f}s{status_flag}"
         )
 
-    # 7. Lưu Log toàn bộ quá trình huấn luyện
     total_duration = time.time() - start_time_all
     summary = {
         "hardware": {

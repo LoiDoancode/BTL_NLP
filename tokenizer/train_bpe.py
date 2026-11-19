@@ -136,12 +136,10 @@ class BPETokenizerWrapper:
         tokenizer_file = save_path / "tokenizer.json"
         self.tokenizer.save(str(tokenizer_file))
 
-        # Lưu thêm vocab.json
         vocab = self.tokenizer.get_vocab()
         with open(save_path / "vocab.json", "w", encoding="utf-8") as f:
             json.dump(vocab, f, ensure_ascii=False, indent=2)
 
-        # Lưu metadata
         meta = {
             "vocab_size": self.vocab_size,
             "special_tokens": {
@@ -175,7 +173,6 @@ def text_iterator(train_file_path: str | Path) -> Iterator[str]:
         data = json.load(f)
 
     for item in data:
-        # Huấn luyện trên cả văn bản đầu vào và chuỗi target triples để vocab bao quát cả hai
         text = item.get("text", "")
         target = item.get("target_text", "")
         if text:
@@ -205,12 +202,10 @@ def train_bpe_tokenizer(
     print("Owner: Doãn Duy Lợi (24021549) - Lead: Data Pipeline & Training Strategy")
     print("=" * 70)
 
-    # 1. Khởi tạo BPE model
     tokenizer = Tokenizer(models.BPE(unk_token=UNK_TOKEN))
     tokenizer.pre_tokenizer = pre_tokenizers.ByteLevel(add_prefix_space=False)
     tokenizer.decoder = decoders.ByteLevel()
 
-    # 2. Cấu hình Trainer
     trainer = trainers.BpeTrainer(
         vocab_size=vocab_size,
         min_frequency=min_frequency,
@@ -219,17 +214,13 @@ def train_bpe_tokenizer(
         show_progress=True,
     )
 
-    # 3. Huấn luyện từ iterator
     print("[TRAINING] Đang huấn luyện BPE Tokenizer...")
     tokenizer.train_from_iterator(text_iterator(train_path), trainer=trainer)
     print(f"[TRAINED] Huấn luyện hoàn tất! Vocab size thực tế: {tokenizer.get_vocab_size():,}")
 
     wrapper = BPETokenizerWrapper(tokenizer)
-
-    # 4. Lưu artifact
     wrapper.save(save_dir)
 
-    # 5. Sanity check kiểm chứng mã hóa
     sample_text = "The leader of Aarhus is Jacob Bundsgaard."
     sample_target = "(Aarhus | leader | Jacob_Bundsgaard)"
 
