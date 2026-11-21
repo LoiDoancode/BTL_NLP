@@ -51,7 +51,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install torch --index-url https://download.pytorch.org/whl/cpu
-          pip install pytest pyyaml numpy pandas scikit-learn networkx
+          pip install pytest pyyaml numpy pandas scikit-learn networkx tokenizers
 
       - name: Check Python syntax (compileall)
         run: python -m compileall -q data tokenizer models scripts eval kg_fusion tests train_scratch.py decode.py
