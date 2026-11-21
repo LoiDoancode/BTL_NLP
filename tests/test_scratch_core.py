@@ -255,3 +255,61 @@ def test_seq2seq_weight_tying_reduces_parameters_and_trains() -> None:
     loss.backward()
     assert tied.src_embedding.weight.grad is not None
     assert not torch.isnan(tied.src_embedding.weight.grad).any()
+
+
+def test_seq2seq_integration_with_train_scratch_teacher_forcing() -> None:
+    import torch.nn as nn
+    from torch.optim import AdamW
+    from torch.utils.data import DataLoader
+
+    from data.dataset import collate_fn
+    from train_scratch import create_model, evaluate, train_one_epoch
+
+    cfg = {
+        "scratch": {
+            "d_model": 64,
+            "n_heads": 4,
+            "num_encoder_layers": 2,
+            "num_decoder_layers": 2,
+            "d_ff": 256,
+            "dropout": 0.0,
+            "use_pre_ln": True,
+            "weight_tying": True,
+        }
+    }
+    device = torch.device("cpu")
+    model, desc = create_model(cfg, vocab_size=100, device=device)
+    assert isinstance(model, Seq2SeqTransformer)
+    assert "Seq2SeqTransformer" in desc
+
+    samples = [
+        {
+            "id": "0",
+            "src_text": "a",
+            "tgt_text": "b",
+            "triples": [],
+            "category": "test",
+            "num_triples": 1,
+            "src_ids": [2, 11, 12, 3],
+            "tgt_ids": [2, 21, 22, 23, 3],
+        },
+        {
+            "id": "1",
+            "src_text": "c",
+            "tgt_text": "d",
+            "triples": [],
+            "category": "test",
+            "num_triples": 1,
+            "src_ids": [2, 13, 3],
+            "tgt_ids": [2, 24, 3],
+        },
+    ]
+    loader = DataLoader(samples, batch_size=2, collate_fn=lambda b: collate_fn(b, pad_id=0))
+    criterion = nn.CrossEntropyLoss(ignore_index=0)
+    optimizer = AdamW(model.parameters(), lr=1e-3)
+
+    train_loss, steps = train_one_epoch(model, loader, optimizer, criterion, None, device, pad_id=0)
+    val_loss = evaluate(model, loader, criterion, device, pad_id=0)
+    assert steps == 1
+    assert train_loss > 0.0
+    assert val_loss > 0.0

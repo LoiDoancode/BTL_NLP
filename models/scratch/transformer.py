@@ -167,8 +167,17 @@ class Seq2SeqTransformer(nn.Module):
         src_mask: torch.Tensor | None = None,
         tgt_mask: torch.Tensor | None = None,
     ) -> torch.Tensor:
+        tgt_len = tgt.size(1)
         if tgt_mask is None:
             tgt_mask = create_target_mask(tgt, pad_idx=self.pad_idx)
+        elif tgt_mask.dim() >= 3 and (tgt_mask.size(-2) > tgt_len or tgt_mask.size(-1) > tgt_len):
+            # Hỗ trợ trường hợp dataloader tạo tgt_mask dài L nhưng decoder_input cắt tgt[:, :-1] dài L-1
+            tgt_mask = tgt_mask[..., :tgt_len, :tgt_len]
+        elif tgt_mask.dim() >= 3 and (
+            tgt_mask.size(-2) > tgt_len or tgt_mask.size(-1) > tgt_len
+        ):
+            # Hỗ trợ trường hợp dataloader tạo tgt_mask dài L nhưng decoder_input cắt tgt[:, :-1] dài L-1
+            tgt_mask = tgt_mask[..., :tgt_len, :tgt_len]
         tgt_emb = self.pos_encoding(self.tgt_embedding(tgt) * self.embed_scale)
         return self.decoder(tgt_emb, enc_out, src_mask=src_mask, tgt_mask=tgt_mask)
 

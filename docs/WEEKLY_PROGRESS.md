@@ -30,7 +30,7 @@
 
 | Tuần | Thời gian | Giai đoạn | Mục tiêu chính | Trạng thái chung | Tiến độ (%) |
 |:----:|-----------|-----------|----------------|:----------------:|:-----------:|
-| **Tuần 1** | `11/11` – `17/11` | Setup & From-Scratch | Tiền xử lý WebNLG+ 2020, BPE Tokenizer, dựng lõi Transformer Scratch & Baseline | 🔄 Đang thực hiện | 0% |
+| **Tuần 1** | `11/11` – `17/11` | Setup & From-Scratch | Tiền xử lý WebNLG+ 2020, BPE Tokenizer, dựng lõi Transformer Scratch & Baseline | 🔄 Đang thực hiện | 50% |
 | **Tuần 2** | `18/11` – `24/11` | SFT 2 LLMs & Cải tiến | Pipeline QLoRA (Qwen2.5-3B, Llama-3.2-3B), Pre-LN, Weight Tying, CoT Prompting | ⬜ Chưa bắt đầu | 0% |
 | **Tuần 3** | `25/11` – `01/12` | Đánh giá & KG Fusion | Đo Micro/Macro P/R/F1, Exact-Set, lọc ảo giác, hợp nhất KG, Error Analysis | ⬜ Chưa bắt đầu | 0% |
 | **Tuần 4** | `02/12` – `08/12` | Báo cáo & Thuyết trình | Hoàn thiện báo cáo IEEE 6 trang (EN), Slide bảo vệ, chuẩn hóa GitHub repo | ⬜ Chưa bắt đầu | 0% |
@@ -48,10 +48,10 @@
 - [x] Xây dựng khung vòng lặp huấn luyện (`train_scratch.py`): Teacher Forcing, Cross-Entropy Loss, AdamW + Warmup Scheduler.
 
 ### 2. Hoàng Lâm Tùng (`24021661`) — *Transformer From-Scratch Core*
-- [ ] Cài đặt `ScaledDotProductAttention` & `MultiHeadAttention` bằng PyTorch thuần (không dùng `torch.nn.Transformer`).
-- [ ] Cài đặt `PositionalEncoding` (Sinusoidal) & `FeedForwardNetwork`.
-- [ ] Cài đặt `Padding Mask` và `Causal Mask`.
-- [ ] Ghép hoàn chỉnh `EncoderLayer`, `DecoderLayer`, `TransformerEncoder`, `TransformerDecoder` bản Baseline.
+- [x] Cài đặt `ScaledDotProductAttention` & `MultiHeadAttention` bằng PyTorch thuần (không dùng `torch.nn.Transformer`).
+- [x] Cài đặt `PositionalEncoding` (Sinusoidal) & `FeedForwardNetwork`.
+- [x] Cài đặt `Padding Mask` và `Causal Mask`.
+- [x] Ghép hoàn chỉnh `EncoderLayer`, `DecoderLayer`, `TransformerEncoder`, `TransformerDecoder` bản Baseline.
 
 ### 3. Nguyễn Chí Phong (`24020268`) — *Pretrained LLMs Fine-tuning*
 - [ ] Chuẩn bị môi trường chạy QLoRA 4-bit (Colab T4 / Kaggle / GPU cá nhân) cho `Qwen2.5-3B-Instruct` và `Llama-3.2-3B-Instruct`.
@@ -67,7 +67,7 @@
 | Thành viên | Trạng thái | % Hoàn thành | Sản phẩm / Link Commit | Ghi chú / Vướng mắc |
 |------------|:----------:|:------------:|------------------------|---------------------|
 | Doãn Duy Lợi | ✅ | 100% | `data/prepare_webnlg.py`, `tokenizer/train_bpe.py`, `train_scratch.py`, `data/README.md` | Hoàn thành sớm trước hạn bàn giao 19/11 & 21/11 |
-| Hoàng Lâm Tùng | ⬜ | 0% | | |
+| Hoàng Lâm Tùng | ✅ | 100% | `models/scratch/*`, `tests/test_scratch_core.py` | Đã hoàn thiện core Transformer, Pre-LN, Weight Tying, unit tests & tương thích `train_scratch.py` |
 | Nguyễn Chí Phong | ⬜ | 0% | | |
 | Bùi Thị Bích Phượng | ⬜ | 0% | | |
 
