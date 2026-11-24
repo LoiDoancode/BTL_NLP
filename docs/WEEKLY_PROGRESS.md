@@ -30,8 +30,8 @@
 
 | Tuần | Thời gian | Giai đoạn | Mục tiêu chính | Trạng thái chung | Tiến độ (%) |
 |:----:|-----------|-----------|----------------|:----------------:|:-----------:|
-| **Tuần 1** | `11/11` – `17/11` | Setup & From-Scratch | Tiền xử lý WebNLG+ 2020, BPE Tokenizer, dựng lõi Transformer Scratch & Baseline | 🔄 Đang thực hiện | 50% |
-| **Tuần 2** | `18/11` – `24/11` | SFT 2 LLMs & Cải tiến | Pipeline QLoRA (Qwen2.5-3B, Llama-3.2-3B), Pre-LN, Weight Tying, CoT Prompting | ⬜ Chưa bắt đầu | 0% |
+| **Tuần 1** | `11/11` – `17/11` | Setup & From-Scratch | Tiền xử lý WebNLG+ 2020, BPE Tokenizer, dựng lõi Transformer Scratch & Baseline | 🔄 Đang thực hiện | 75% |
+| **Tuần 2** | `18/11` – `24/11` | SFT 2 LLMs & Cải tiến | Pipeline QLoRA (`Qwen3-4B`, `Llama-3.1-Nemotron-Nano-4B`), Pre-LN, Weight Tying, CoT Prompting | 🔄 Đang thực hiện | 13% |
 | **Tuần 3** | `25/11` – `01/12` | Đánh giá & KG Fusion | Đo Micro/Macro P/R/F1, Exact-Set, lọc ảo giác, hợp nhất KG, Error Analysis | ⬜ Chưa bắt đầu | 0% |
 | **Tuần 4** | `02/12` – `08/12` | Báo cáo & Thuyết trình | Hoàn thiện báo cáo IEEE 6 trang (EN), Slide bảo vệ, chuẩn hóa GitHub repo | ⬜ Chưa bắt đầu | 0% |
 
@@ -54,9 +54,9 @@
 - [x] Ghép hoàn chỉnh `EncoderLayer`, `DecoderLayer`, `TransformerEncoder`, `TransformerDecoder` bản Baseline.
 
 ### 3. Nguyễn Chí Phong (`24020268`) — *Pretrained LLMs Fine-tuning*
-- [ ] Chuẩn bị môi trường chạy QLoRA 4-bit (Colab T4 / Kaggle / GPU cá nhân) cho `Qwen2.5-3B-Instruct` và `Llama-3.2-3B-Instruct`.
-- [ ] Thiết kế định dạng Prompt chuẩn (Input text $\rightarrow$ Structured Triples) & kiểm tra tokenization trên 2 LLM.
-- [ ] Chạy thử nghiệm baseline inference (zero-shot / few-shot) để làm mốc đối chiếu trước SFT.
+- [x] Chuẩn bị môi trường chạy QLoRA 4-bit (RTX 4090 / Colab T4) & khảo sát VRAM cho `Qwen/Qwen3-4B-Instruct-2507` (4.02B) và `nvidia/Llama-3.1-Nemotron-Nano-4B-v1.1` (4.51B).
+- [x] Thiết kế định dạng Prompt chuẩn (Input text $\rightarrow$ Structured Triples) & kiểm tra tokenization trên 2 LLM.
+- [x] Chạy thử nghiệm baseline inference (few-shot) để làm mốc đối chiếu trước SFT.
 
 ### 4. Bùi Thị Bích Phượng (`24021601`) — *Evaluation & KG Fusion*
 - [ ] Xây dựng bộ parser chuyển đổi chuỗi output sinh ra thành danh sách bộ ba `(subject, predicate, object)`.
@@ -68,7 +68,7 @@
 |------------|:----------:|:------------:|------------------------|---------------------|
 | Doãn Duy Lợi | ✅ | 100% | `data/prepare_webnlg.py`, `tokenizer/train_bpe.py`, `train_scratch.py`, `data/README.md` | Hoàn thành sớm trước hạn bàn giao 19/11 & 21/11 |
 | Hoàng Lâm Tùng | ✅ | 100% | `models/scratch/*`, `tests/test_scratch_core.py` | Đã hoàn thiện core Transformer, Pre-LN, Weight Tying, unit tests & tương thích `train_scratch.py` |
-| Nguyễn Chí Phong | ⬜ | 0% | | |
+| Nguyễn Chí Phong | ✅ | 100% | `configs/config.yaml`, `models/llm_under6b/*` (`50801c7`) | Chốt 2 LLM `< 6B` (`Qwen3-4B-Instruct-2507` & `Llama-3.1-Nemotron-Nano-4B-v1.1`), đo VRAM 4-bit trên RTX 4090 & chạy baseline few-shot (`Qwen3-4B` Micro F1 = 0.2706) |
 | Bùi Thị Bích Phượng | ⬜ | 0% | | |
 
 ---
@@ -88,8 +88,8 @@
 - [ ] Kiểm tra gradient flow, ổn định hội tụ và hỗ trợ debug huấn luyện cùng Data/Training Lead.
 
 ### 3. Nguyễn Chí Phong (`24020268`) — *Pretrained LLMs Fine-tuning*
-- [ ] Xây dựng pipeline SFT & QLoRA hoàn chỉnh cho `Qwen2.5-3B-Instruct` và `Llama-3.2-3B-Instruct`.
-- [ ] Triển khai kỹ thuật **Target-only Loss Masking** (chỉ tính loss trên phần output triples).
+- [x] Xây dựng pipeline SFT & QLoRA hoàn chỉnh cho `Qwen/Qwen3-4B-Instruct-2507` và `nvidia/Llama-3.1-Nemotron-Nano-4B-v1.1`.
+- [x] Triển khai kỹ thuật **Target-only Loss Masking** (chỉ tính loss trên phần output triples).
 - [ ] Thử nghiệm **Entity-Guided CoT Prompting** & tinh chỉnh siêu tham số LoRA ($r$, $\alpha$, lr, scheduler).
 - [ ] Lưu lại các LoRA adapters tốt nhất & ghi nhận chi phí phần cứng (Peak VRAM, thời gian train).
 
@@ -103,7 +103,7 @@
 |------------|:----------:|:------------:|------------------------|---------------------|
 | Doãn Duy Lợi | ⬜ | 0% | | |
 | Hoàng Lâm Tùng | ⬜ | 0% | | |
-| Nguyễn Chí Phong | ⬜ | 0% | | |
+| Nguyễn Chí Phong | 🔄 | 50% | `scripts/sft_qlora.py`, `models/llm_under6b/prompts.py` (`50801c7`) | Đã xong pipeline QLoRA 4-bit (`r=64, alpha=128`), Target-only Loss Masking & CoT prompt; chuẩn bị chạy train & lưu best adapters trên RTX 4090 |
 | Bùi Thị Bích Phượng | ⬜ | 0% | | |
 
 ---
