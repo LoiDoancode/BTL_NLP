@@ -1,0 +1,75 @@
+{
+  "method": "greedy",
+  "beam_size": 1,
+  "length_penalty": 0.0,
+  "checkpoint": "outputs\\checkpoints\\scratch_improved\\best_model.pt",
+  "split": "val",
+  "num_samples": 4,
+  "elapsed_sec": 0.44,
+  "predictions": [
+    {
+      "id": "val_0",
+      "category": "Airport",
+      "num_triples": 1,
+      "text": "The leader of Aarhus is Jacob Bundsgaard.",
+      "gold_text": "(Aarhus | leader | Jacob_Bundsgaard)",
+      "gold_triples": [
+        [
+          "Aarhus",
+          "leader",
+          "Jacob_Bundsgaard"
+        ]
+      ],
+      "pred_text": "",
+      "pred_triples": []
+    },
+    {
+      "id": "val_1",
+      "category": "Airport",
+      "num_triples": 1,
+      "text": "Aarhus Airport's runway length is 2702.0.",
+      "gold_text": "(Aarhus_Airport | runwayLength | 2702.0)",
+      "gold_triples": [
+        [
+          "Aarhus_Airport",
+          "runwayLength",
+          "2702.0"
+        ]
+      ],
+      "pred_text": "",
+      "pred_triples": []
+    },
+    {
+      "id": "val_2",
+      "category": "Airport",
+      "num_triples": 1,
+      "text": "Adirondack Regional Airport is 507 metres above sea level.",
+      "gold_text": "(Adirondack_Regional_Airport | elevationAboveTheSeaLevel | 507)",
+      "gold_triples": [
+        [
+          "Adirondack_Regional_Airport",
+          "elevationAboveTheSeaLevel",
+          "507"
+        ]
+      ],
+      "pred_text": "",
+      "pred_triples": []
+    },
+    {
+      "id": "val_3",
+      "category": "Airport",
+      "num_triples": 1,
+      "text": "Adirondack Regional airport is located at Harrietstown, New York.",
+      "gold_text": "(Adirondack_Regional_Airport | location | Harrietstown,_New_York)",
+      "gold_triples": [
+        [
+          "Adirondack_Regional_Airport",
+          "location",
+          "Harrietstown,_New_York"
+        ]
+      ],
+      "pred_text": "",
+      "pred_triples": []
+    }
+  ]
+}

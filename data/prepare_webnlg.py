@@ -54,8 +54,13 @@ def clean_str(s: str) -> str:
     return re.sub(r"\s+", " ", s).strip()
 
 
+def clean_entity_str(s: str) -> str:
+    """Chuẩn hóa tên thực thể (Subject/Object): đổi '_' thành khoảng trắng và làm sạch."""
+    return clean_str(s.replace("_", " "))
+
+
 def parse_raw_triple(triple_str: str) -> tuple[str, str, str]:
-    """Phân tách chuỗi 'Subject | Predicate | Object' thành tuple (s, p, o)."""
+    """Phân tách chuỗi 'Subject | Predicate | Object' thành tuple (s, p, o) đã chuẩn hóa."""
     parts = triple_str.split(" | ")
     if len(parts) == 3:
         s, p, o = parts[0], parts[1], parts[2]
@@ -67,7 +72,7 @@ def parse_raw_triple(triple_str: str) -> tuple[str, str, str]:
     else:
         s, p, o = parts[0], "", ""
 
-    return clean_str(s), clean_str(p), clean_str(o)
+    return clean_entity_str(s), clean_str(p), clean_entity_str(o)
 
 
 def format_triples_to_target(triples: list[tuple[str, str, str]], sep: str = " | ") -> str:
@@ -240,9 +245,9 @@ Mỗi mẫu dữ liệu được lưu dưới dạng JSON object có các trư�
   "category": "Airport",
   "text": "Aarhus Airport serves the city of Aarhus, Denmark.",
   "triples": [
-    ["Aarhus_Airport", "cityServed", "Aarhus, Denmark"]
+    ["Aarhus Airport", "cityServed", "Aarhus, Denmark"]
   ],
-  "target_text": "(Aarhus_Airport | cityServed | Aarhus, Denmark)",
+  "target_text": "(Aarhus Airport | cityServed | Aarhus, Denmark)",
   "num_triples": 1
 }}
 ```

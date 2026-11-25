@@ -1,8 +1,8 @@
 # 📚 Dữ liệu WebNLG+ 2020 cho BTL NLP (Text-to-Triples)
 
-> **Phụ trách (Owner):** Doãn Duy Lợi (24021549) — *Lead: Data Pipeline & Training Strategy*  
-> **Nguồn dữ liệu:** GEM Benchmark / WebNLG+ 2020 English (`GEM/web_nlg` trên Hugging Face: https://huggingface.co/datasets/GEM/web_nlg)  
-> **Nhiệm vụ bàn giao:** Hạng mục T01 (Mốc 19/11: Bàn giao tập dữ liệu sạch & chuẩn hóa)  
+> **Phụ trách (Owner):** Doãn Duy Lợi (24021549) — *Lead: Data Pipeline & Training Strategy*
+> **Nguồn dữ liệu:** GEM Benchmark / WebNLG+ 2020 English (`GEM/web_nlg` trên Hugging Face: https://huggingface.co/datasets/GEM/web_nlg)
+> **Nhiệm vụ bàn giao:** Hạng mục T01 (Mốc 19/11: Bàn giao tập dữ liệu sạch & chuẩn hóa)
 > **Người nhận:** Hoàng Lâm Tùng (Scratch), Nguyễn Chí Phong (LLMs < 6B), Bùi Thị Bích Phượng (Eval/KG)
 
 ---
@@ -32,9 +32,9 @@ Mỗi mẫu dữ liệu được lưu dưới dạng JSON object có các trư�
   "category": "Airport",
   "text": "Aarhus Airport serves the city of Aarhus, Denmark.",
   "triples": [
-    ["Aarhus_Airport", "cityServed", "Aarhus, Denmark"]
+    ["Aarhus Airport", "cityServed", "Aarhus, Denmark"]
   ],
-  "target_text": "(Aarhus_Airport | cityServed | Aarhus, Denmark)",
+  "target_text": "(Aarhus Airport | cityServed | Aarhus, Denmark)",
   "num_triples": 1
 }
 ```
@@ -63,10 +63,10 @@ train_loader = get_dataloader(
 )
 
 for batch in train_loader:
-    src_ids = batch["src_ids"]  # [B, L_src]
-    tgt_ids = batch["tgt_ids"]  # [B, L_tgt]
-    src_mask = batch["src_mask"]  # [B, 1, 1, L_src]
-    tgt_mask = batch["tgt_mask"]  # [B, 1, L_tgt, L_tgt]
+    src_ids = batch["src_ids"]
+    tgt_ids = batch["tgt_ids"]
+    src_mask = batch["src_mask"]
+    tgt_mask = batch["tgt_mask"]
     break
 ```
 
@@ -75,11 +75,9 @@ for batch in train_loader:
 import json
 import pandas as pd
 
-# Đọc JSON
-with open("data/processed/train.json", "r", encoding="utf-8") as f:
+with open("data/processed/train.json", encoding="utf-8") as f:
     train_data = json.load(f)
 
-# Đọc CSV bằng Pandas
 df = pd.read_csv("data/processed/test.csv")
 print(f"Tổng số mẫu test: {len(df)}")
 print(df.head())

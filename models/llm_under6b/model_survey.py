@@ -26,6 +26,12 @@ LORA_TARGET_MODULES = [
 ]
 
 
+def _preferred_compute_dtype() -> torch.dtype:
+    if torch.cuda.is_available() and torch.cuda.is_bf16_supported():
+        return torch.bfloat16
+    return torch.float16
+
+
 def build_bnb_config(load_in_4bit: bool = True) -> BitsAndBytesConfig | None:
     if not load_in_4bit:
         return None
@@ -33,7 +39,7 @@ def build_bnb_config(load_in_4bit: bool = True) -> BitsAndBytesConfig | None:
         load_in_4bit=True,
         bnb_4bit_quant_type="nf4",
         bnb_4bit_use_double_quant=True,
-        bnb_4bit_compute_dtype=torch.bfloat16,
+        bnb_4bit_compute_dtype=_preferred_compute_dtype(),
     )
 
 
@@ -51,7 +57,7 @@ def load_base_model(model_id: str, load_in_4bit: bool = True) -> AutoModelForCau
     return AutoModelForCausalLM.from_pretrained(
         model_id,
         quantization_config=bnb_config,
-        torch_dtype=torch.bfloat16,
+        torch_dtype=_preferred_compute_dtype(),
         device_map=device_map,
         attn_implementation="sdpa",
     )

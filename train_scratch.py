@@ -8,6 +8,7 @@ import argparse
 import json
 import random
 import time
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -198,10 +199,11 @@ def train_one_epoch(
 
         decoder_input = tgt_ids[:, :-1]
         target_labels = tgt_ids[:, 1:]
+        dec_tgt_mask = tgt_mask[:, :, :-1, :-1] if tgt_mask is not None else None
 
         optimizer.zero_grad()
 
-        logits = model(src_ids, decoder_input, src_mask=src_mask, tgt_mask=tgt_mask)
+        logits = model(src_ids, decoder_input, src_mask=src_mask, tgt_mask=dec_tgt_mask)
 
         vocab_size = logits.size(-1)
         loss = criterion(logits.reshape(-1, vocab_size), target_labels.reshape(-1))
@@ -248,8 +250,9 @@ def evaluate(
 
         decoder_input = tgt_ids[:, :-1]
         target_labels = tgt_ids[:, 1:]
+        dec_tgt_mask = tgt_mask[:, :, :-1, :-1] if tgt_mask is not None else None
 
-        logits = model(src_ids, decoder_input, src_mask=src_mask, tgt_mask=tgt_mask)
+        logits = model(src_ids, decoder_input, src_mask=src_mask, tgt_mask=dec_tgt_mask)
         vocab_size = logits.size(-1)
         loss = criterion(logits.reshape(-1, vocab_size), target_labels.reshape(-1))
 
@@ -258,6 +261,99 @@ def evaluate(
         total_tokens += max(1, num_valid_tokens)
 
     return total_loss / max(1, total_tokens)
+
+
+@dataclass(frozen=True)
+class CurriculumStage:
+    """Biểu diễn một giai đoạn trong chiến lược Curriculum Learning theo số lượng bộ ba."""
+
+    name: str
+    start_epoch: int
+    end_epoch: int
+    num_triples_filter: int | list[int] | str | None
+    description: str
+
+
+def build_curriculum_schedule(
+    total_epochs: int,
+    stage1_ratio: float = 0.25,
+    stage2_ratio: float = 0.25,
+) -> list[CurriculumStage]:
+    """
+    Lập lịch Curriculum Learning 3 giai đoạn theo độ phức tạp bộ ba (1 -> 1-2 -> toàn bộ 1, 2, >=3):
+      - Giai đoạn 1 (Easy): chỉ huấn luyện trên mẫu có đúng 1 triple.
+      - Giai đoạn 2 (Medium): mở rộng lên mẫu có 1-2 triples (tích lũy tránh quên thảm họa).
+      - Giai đoạn 3 (Full/Hard): huấn luyện trên toàn bộ tập dữ liệu (1, 2, >=3 triples).
+    """
+    if total_epochs <= 1:
+        return [
+            CurriculumStage(
+                name="stage_3_full",
+                start_epoch=1,
+                end_epoch=max(1, total_epochs),
+                num_triples_filter=None,
+                description="Full dataset (1, 2, >=3 triples)",
+            )
+        ]
+
+    if total_epochs == 2:
+        return [
+            CurriculumStage(
+                name="stage_1_easy",
+                start_epoch=1,
+                end_epoch=1,
+                num_triples_filter=1,
+                description="1 triple",
+            ),
+            CurriculumStage(
+                name="stage_3_full",
+                start_epoch=2,
+                end_epoch=2,
+                num_triples_filter=None,
+                description="Full dataset (1, 2, >=3 triples)",
+            ),
+        ]
+
+    s1_epochs = max(1, round(total_epochs * stage1_ratio))
+    s2_epochs = max(1, round(total_epochs * stage2_ratio))
+    if s1_epochs + s2_epochs >= total_epochs:
+        s1_epochs = max(1, total_epochs // 3)
+        s2_epochs = max(1, total_epochs // 3)
+
+    s1_end = s1_epochs
+    s2_end = s1_end + s2_epochs
+
+    return [
+        CurriculumStage(
+            name="stage_1_easy",
+            start_epoch=1,
+            end_epoch=s1_end,
+            num_triples_filter=1,
+            description="1 triple",
+        ),
+        CurriculumStage(
+            name="stage_2_medium",
+            start_epoch=s1_end + 1,
+            end_epoch=s2_end,
+            num_triples_filter=[1, 2],
+            description="1-2 triples",
+        ),
+        CurriculumStage(
+            name="stage_3_full",
+            start_epoch=s2_end + 1,
+            end_epoch=total_epochs,
+            num_triples_filter=None,
+            description="Full dataset (1, 2, >=3 triples)",
+        ),
+    ]
+
+
+def get_curriculum_stage(epoch: int, schedule: list[CurriculumStage]) -> CurriculumStage:
+    """Trả về giai đoạn Curriculum tương ứng với epoch hiện tại (1-indexed)."""
+    for stage in schedule:
+        if stage.start_epoch <= epoch <= stage.end_epoch:
+            return stage
+    return schedule[-1]
 
 
 def save_checkpoint(
@@ -291,11 +387,33 @@ def main() -> None:
     parser.add_argument("--epochs", type=int, default=None)
     parser.add_argument("--batch_size", type=int, default=None)
     parser.add_argument("--lr", type=float, default=None)
+    parser.add_argument("--d_model", type=int, default=None)
+    parser.add_argument("--n_heads", type=int, default=None)
+    parser.add_argument("--num_layers", type=int, default=None)
+    parser.add_argument("--max_steps", type=int, default=None, help="Giới hạn số batch/epoch")
+    parser.add_argument("--checkpoint_dir", type=str, default=None)
+    parser.add_argument("--run_name", type=str, default="scratch")
+    parser.add_argument(
+        "--curriculum",
+        action="store_true",
+        help="Bật chiến lược Curriculum Learning (1 -> 1-2 -> toàn bộ triples)",
+    )
+    parser.add_argument(
+        "--no_curriculum",
+        action="store_true",
+        help="Tắt Curriculum Learning ngay cả khi config bật",
+    )
+    parser.add_argument(
+        "--no_pre_ln", action="store_true", help="Tắt Pre-LN (dùng Post-LN Baseline)"
+    )
+    parser.add_argument(
+        "--no_weight_tying", action="store_true", help="Tắt Weight Tying (dùng Baseline)"
+    )
     parser.add_argument(
         "--dry_run", action="store_true", help="Chạy thử nghiệm 2 batch để kiểm chứng pipeline"
     )
     parser.add_argument(
-        "--num_triples_filter", type=str, default=None, help="Lọc curriculum: 1, 2, '>=3'"
+        "--num_triples_filter", type=str, default=None, help="Lọc cố định: 1, 2, '>=3'"
     )
     args = parser.parse_args()
 
@@ -305,22 +423,55 @@ def main() -> None:
     seed = config.get("seed", 42)
     set_seed(seed)
 
-    scratch_cfg = config.get("scratch", {})
+    scratch_cfg = config.setdefault("scratch", {})
+    if args.no_pre_ln:
+        scratch_cfg["use_pre_ln"] = False
+    if args.no_weight_tying:
+        scratch_cfg["weight_tying"] = False
+    if args.d_model is not None:
+        scratch_cfg["d_model"] = args.d_model
+        scratch_cfg["d_ff"] = args.d_model * 4
+    if args.n_heads is not None:
+        scratch_cfg["n_heads"] = args.n_heads
+    if args.num_layers is not None:
+        scratch_cfg["num_encoder_layers"] = args.num_layers
+        scratch_cfg["num_decoder_layers"] = args.num_layers
+
     epochs = args.epochs or (1 if args.dry_run else scratch_cfg.get("epochs", 30))
     batch_size = args.batch_size or (4 if args.dry_run else scratch_cfg.get("batch_size", 32))
     lr = args.lr or scratch_cfg.get("learning_rate", 5.0e-4)
     label_smoothing = scratch_cfg.get("label_smoothing", 0.1)
     max_length = scratch_cfg.get("max_length", 256)
-    checkpoint_dir = Path(scratch_cfg.get("checkpoint_dir", "outputs/checkpoints/scratch"))
+    checkpoint_dir = Path(
+        args.checkpoint_dir or scratch_cfg.get("checkpoint_dir", "outputs/checkpoints/scratch")
+    )
     checkpoint_dir.mkdir(parents=True, exist_ok=True)
+
+    curriculum_cfg = scratch_cfg.get("curriculum", {})
+    use_curriculum = (
+        args.curriculum or (curriculum_cfg.get("enabled", False) and not args.no_curriculum)
+    ) and args.num_triples_filter is None
+    curriculum_schedule = (
+        build_curriculum_schedule(
+            total_epochs=epochs,
+            stage1_ratio=curriculum_cfg.get("stage1_ratio", 0.25),
+            stage2_ratio=curriculum_cfg.get("stage2_ratio", 0.25),
+        )
+        if use_curriculum
+        else []
+    )
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     print("=" * 70)
-    print("BTL NLP: VÒNG LẶP HUẤN LUYỆN TRANSFORMER FROM-SCRATCH")
+    print(f"BTL NLP: VÒNG LẶP HUẤN LUYỆN TRANSFORMER FROM-SCRATCH [{args.run_name}]")
     print("Owner: Doãn Duy Lợi (24021549) - Lead: Data Pipeline & Training Strategy")
     print(f"Thiết bị: {device} | Seed: {seed} | Epochs: {epochs} | Batch size: {batch_size}")
-    print(f"Label Smoothing: {label_smoothing} | Max Length: {max_length}")
+    print(
+        f"Pre-LN: {scratch_cfg.get('use_pre_ln', True)} | "
+        f"Weight Tying: {scratch_cfg.get('weight_tying', True)} | "
+        f"Curriculum: {use_curriculum}"
+    )
     print("=" * 70)
 
     tok_dir = config.get("tokenizer", {}).get("save_dir", "tokenizer/artifacts")
@@ -332,17 +483,7 @@ def main() -> None:
     train_file = data_dir / "train.json"
     val_file = data_dir / "val.json"
 
-    print(f"[*] Đang nạp tập Train: {train_file} ...")
-    train_loader = get_dataloader(
-        train_file,
-        tokenizer=tokenizer,
-        batch_size=batch_size,
-        shuffle=True,
-        max_length=max_length,
-        num_triples_filter=args.num_triples_filter,
-    )
-
-    print(f"[*] Đang nạp tập Validation: {val_file} ...")
+    print(f"[*] Đang nạp tập Validation (đầy đủ): {val_file} ...")
     val_loader = get_dataloader(
         val_file,
         tokenizer=tokenizer,
@@ -352,13 +493,30 @@ def main() -> None:
         num_triples_filter=args.num_triples_filter,
     )
 
-    print(
-        f"[OK] Đã nạp thành công: {len(train_loader)} train batches, {len(val_loader)} val batches."
-    )
+    train_loaders_cache: dict[str, torch.utils.data.DataLoader] = {}
+    if not use_curriculum:
+        print(f"[*] Đang nạp tập Train: {train_file} ...")
+        train_loaders_cache["default"] = get_dataloader(
+            train_file,
+            tokenizer=tokenizer,
+            batch_size=batch_size,
+            shuffle=True,
+            max_length=max_length,
+            num_triples_filter=args.num_triples_filter,
+        )
+        print(
+            f"[OK] Đã nạp: {len(train_loaders_cache['default'])} train batches, "
+            f"{len(val_loader)} val batches."
+        )
+    else:
+        print("[*] Lịch trình Curriculum Learning:")
+        for st in curriculum_schedule:
+            print(f"    - {st.name}: Epochs {st.start_epoch}-{st.end_epoch} ({st.description})")
 
     model, model_desc = create_model(config, tokenizer.vocab_size, device)
+    num_params = model.count_parameters()
     print(f"[*] Mô hình: {model_desc}")
-    print(f"[*] Tổng số tham số có thể huấn luyện: {model.count_parameters():,}")
+    print(f"[*] Tổng số tham số có thể huấn luyện: {num_params:,}")
 
     criterion = nn.CrossEntropyLoss(ignore_index=PAD_ID, label_smoothing=label_smoothing)
     optimizer = AdamW(model.parameters(), lr=lr, betas=(0.9, 0.98), eps=1e-9, weight_decay=1e-4)
@@ -369,13 +527,30 @@ def main() -> None:
 
     best_val_loss = float("inf")
     train_history = []
-    max_steps_per_epoch = 2 if args.dry_run else None
+    max_steps_per_epoch = 2 if args.dry_run else args.max_steps
 
     start_time_all = time.time()
     print("\n--- BẮT ĐẦU HUẤN LUYỆN ---")
 
     for epoch in range(1, epochs + 1):
         epoch_start = time.time()
+
+        if use_curriculum:
+            stage = get_curriculum_stage(epoch, curriculum_schedule)
+            stage_name = stage.name
+            if stage_name not in train_loaders_cache:
+                train_loaders_cache[stage_name] = get_dataloader(
+                    train_file,
+                    tokenizer=tokenizer,
+                    batch_size=batch_size,
+                    shuffle=True,
+                    max_length=max_length,
+                    num_triples_filter=stage.num_triples_filter,
+                )
+            train_loader = train_loaders_cache[stage_name]
+        else:
+            stage_name = "none"
+            train_loader = train_loaders_cache["default"]
 
         train_loss, steps = train_one_epoch(
             model=model,
@@ -411,6 +586,9 @@ def main() -> None:
 
         log_entry = {
             "epoch": epoch,
+            "curriculum_stage": stage_name,
+            "num_train_samples": len(train_loader.dataset),
+            "steps": steps,
             "train_loss": round(train_loss, 4),
             "val_loss": round(val_loss, 4),
             "best_val_loss": round(best_val_loss, 4),
@@ -422,7 +600,7 @@ def main() -> None:
 
         status_flag = " ⭐ [BEST CHECKPOINT]" if is_best else ""
         print(
-            f"Epoch {epoch:02d}/{epochs:02d} | "
+            f"Epoch {epoch:02d}/{epochs:02d} [{stage_name}] | "
             f"Train Loss: {train_loss:.4f} | "
             f"Val Loss: {val_loss:.4f} | "
             f"LR: {curr_lr:.2e} | "
@@ -431,9 +609,21 @@ def main() -> None:
 
     total_duration = time.time() - start_time_all
     summary = {
+        "run_name": args.run_name,
         "hardware": {
             "device": str(device),
             "device_name": torch.cuda.get_device_name(0) if torch.cuda.is_available() else "CPU",
+        },
+        "architecture": {
+            "model_desc": model_desc,
+            "d_model": scratch_cfg.get("d_model", 512),
+            "n_heads": scratch_cfg.get("n_heads", 8),
+            "num_encoder_layers": scratch_cfg.get("num_encoder_layers", 6),
+            "num_decoder_layers": scratch_cfg.get("num_decoder_layers", 6),
+            "use_pre_ln": scratch_cfg.get("use_pre_ln", True),
+            "weight_tying": scratch_cfg.get("weight_tying", True),
+            "curriculum": use_curriculum,
+            "num_parameters": num_params,
         },
         "seed": seed,
         "max_length": max_length,

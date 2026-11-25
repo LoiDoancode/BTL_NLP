@@ -1,0 +1,98 @@
+{
+  "run_name": "baseline",
+  "hardware": {
+    "device": "cpu",
+    "device_name": "CPU"
+  },
+  "architecture": {
+    "model_desc": "Custom PyTorch Seq2SeqTransformer (Tùng & Lợi)",
+    "d_model": 128,
+    "n_heads": 4,
+    "num_encoder_layers": 2,
+    "num_decoder_layers": 2,
+    "use_pre_ln": false,
+    "weight_tying": false,
+    "curriculum": false,
+    "num_parameters": 6917066
+  },
+  "seed": 42,
+  "max_length": 256,
+  "vocab_size": 15562,
+  "epochs": 6,
+  "best_val_loss": 9.34925622446093,
+  "total_time_sec": 44.4,
+  "history": [
+    {
+      "epoch": 1,
+      "curriculum_stage": "none",
+      "num_train_samples": 35426,
+      "steps": 10,
+      "train_loss": 9.509,
+      "val_loss": 9.4848,
+      "best_val_loss": 9.4848,
+      "lr": "3.49e-06",
+      "is_best": true,
+      "time_sec": 6.6
+    },
+    {
+      "epoch": 2,
+      "curriculum_stage": "none",
+      "num_train_samples": 35426,
+      "steps": 10,
+      "train_loss": 9.4827,
+      "val_loss": 9.4714,
+      "best_val_loss": 9.4714,
+      "lr": "6.99e-06",
+      "is_best": true,
+      "time_sec": 5.56
+    },
+    {
+      "epoch": 3,
+      "curriculum_stage": "none",
+      "num_train_samples": 35426,
+      "steps": 10,
+      "train_loss": 9.4707,
+      "val_loss": 9.4496,
+      "best_val_loss": 9.4496,
+      "lr": "1.05e-05",
+      "is_best": true,
+      "time_sec": 6.27
+    },
+    {
+      "epoch": 4,
+      "curriculum_stage": "none",
+      "num_train_samples": 35426,
+      "steps": 10,
+      "train_loss": 9.4421,
+      "val_loss": 9.4209,
+      "best_val_loss": 9.4209,
+      "lr": "1.40e-05",
+      "is_best": true,
+      "time_sec": 6.61
+    },
+    {
+      "epoch": 5,
+      "curriculum_stage": "none",
+      "num_train_samples": 35426,
+      "steps": 10,
+      "train_loss": 9.4138,
+      "val_loss": 9.3875,
+      "best_val_loss": 9.3875,
+      "lr": "1.75e-05",
+      "is_best": true,
+      "time_sec": 8.76
+    },
+    {
+      "epoch": 6,
+      "curriculum_stage": "none",
+      "num_train_samples": 35426,
+      "steps": 10,
+      "train_loss": 9.3731,
+      "val_loss": 9.3493,
+      "best_val_loss": 9.3493,
+      "lr": "2.10e-05",
+      "is_best": true,
+      "time_sec": 7.95
+    }
+  ]
+}

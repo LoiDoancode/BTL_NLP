@@ -1,64 +1,60 @@
 """
-Unit tests cơ bản cho Triplet Parser & Evaluation Metrics.
+Unit tests cho Triplet Parser (bao gồm ngoặc lồng nhau, special tokens LLM, chuẩn hóa '_').
 Owner: Bùi Thị Bích Phượng (24021601)
 """
 
-import sys
-from pathlib import Path
-
-if __name__ == "__main__":
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
-from eval.parser import parse_triplet, deduplicate_triples, normalize_triple
+from eval.parser import deduplicate_triples, normalize_triple, parse_triplet
 
 
-def test_parse_valid_triplet():
+def test_parse_valid_triplet() -> None:
     text = "(Alan Bean | mission | Apollo 12)"
-    result = parse_triplet(text)
-    assert result == [
-        ("Alan Bean", "mission", "Apollo 12")
-    ]
+    assert parse_triplet(text) == [("Alan Bean", "mission", "Apollo 12")]
 
-def test_parse_multiple_triples():
+
+def test_parse_multiple_triples() -> None:
     text = """
     (Alan Bean | mission | Apollo 12)
     (Apollo 12 | operator | NASA)
     """
-    result = parse_triplet(text)
-    assert len(result) == 2
+    assert len(parse_triplet(text)) == 2
 
-def test_parse_special_tokens():
+
+def test_parse_nested_parentheses_in_entity() -> None:
+    text = "(John Smith (politician) | birthPlace | London) | (Aarhus_(city) | country | Denmark)"
+    result = parse_triplet(text)
+    assert result == [
+        ("John Smith (politician)", "birthPlace", "London"),
+        ("Aarhus_(city)", "country", "Denmark"),
+    ]
+
+
+def test_parse_special_tokens_and_think_block() -> None:
     text = """
-    [BOS]
-    (Alan Bean | mission | Apollo 12)
-    [EOS]
+    <think>Find entities first.</think>
+    <|im_start|>assistant
+    [BOS] (Alan Bean | mission | Apollo 12) [EOS]
+    <|eot_id|>
     """
-    result = parse_triplet(text)
-    assert len(result) == 1
+    assert parse_triplet(text) == [("Alan Bean", "mission", "Apollo 12")]
 
-def test_invalid_triplet():
-    text = "(Alan Bean | mission)"
-    assert parse_triplet(text) == []
 
-def test_empty_input():
+def test_invalid_triplet() -> None:
+    assert parse_triplet("(Alan Bean | mission)") == []
+
+
+def test_empty_input() -> None:
     assert parse_triplet("") == []
 
-def test_normalize_triple():
-    triple = ("Alan Bean", "mission", "Apollo 12")
-    normalized = normalize_triple(triple)
-    assert normalized == ("alan bean", "mission", "apollo 12")
 
-def test_deduplicate_triples():
+def test_normalize_triple_underscores() -> None:
+    triple = ("Aarhus_Airport", "cityServed", "Aarhus,_Denmark")
+    assert normalize_triple(triple) == ("aarhus airport", "cityserved", "aarhus, denmark")
+
+
+def test_deduplicate_triples() -> None:
     triples = [
+        ("Alan_Bean", "mission", "Apollo_12"),
         ("Alan Bean", "mission", "Apollo 12"),
-        ("Alan Bean", "mission", "Apollo 12"),
-        ("Apollo 12", "operator", "NASA")
+        ("Apollo 12", "operator", "NASA"),
     ]
-    deduplicated = deduplicate_triples(triples)
-    assert len(deduplicated) == 2
-
-
-if __name__ == "__main__":
-    import pytest
-
-    raise SystemExit(pytest.main([__file__]))
+    assert len(deduplicate_triples(triples)) == 2
