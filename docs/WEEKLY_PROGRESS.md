@@ -30,8 +30,8 @@
 
 | Tuần | Thời gian | Giai đoạn | Mục tiêu chính | Trạng thái chung | Tiến độ (%) |
 |:----:|-----------|-----------|----------------|:----------------:|:-----------:|
-| **Tuần 1** | `11/11` – `17/11` | Setup & From-Scratch | Tiền xử lý WebNLG+ 2020, BPE Tokenizer, dựng lõi Transformer Scratch & Baseline | 🔄 Đang thực hiện | 75% |
-| **Tuần 2** | `18/11` – `24/11` | SFT 2 LLMs & Cải tiến | Pipeline QLoRA (`Qwen3-4B`, `Llama-3.1-Nemotron-Nano-4B`), Pre-LN, Weight Tying, CoT Prompting | 🔄 Đang thực hiện | 13% |
+| **Tuần 1** | `11/11` – `17/11` | Setup & From-Scratch | Tiền xử lý WebNLG+ 2020, BPE Tokenizer, dựng lõi Transformer Scratch & Baseline | ✅ Hoàn thành | 100% |
+| **Tuần 2** | `18/11` – `24/11` | SFT 2 LLMs & Cải tiến | Pipeline QLoRA (`Qwen3-4B`, `Llama-3.1-Nemotron-Nano-4B`), Pre-LN, Weight Tying, CoT Prompting | 🔄 Đang thực hiện | 38% |
 | **Tuần 3** | `25/11` – `01/12` | Đánh giá & KG Fusion | Đo Micro/Macro P/R/F1, Exact-Set, lọc ảo giác, hợp nhất KG, Error Analysis | ⬜ Chưa bắt đầu | 0% |
 | **Tuần 4** | `02/12` – `08/12` | Báo cáo & Thuyết trình | Hoàn thiện báo cáo IEEE 6 trang (EN), Slide bảo vệ, chuẩn hóa GitHub repo | ⬜ Chưa bắt đầu | 0% |
 
@@ -59,9 +59,9 @@
 - [x] Chạy thử nghiệm baseline inference (few-shot) để làm mốc đối chiếu trước SFT.
 
 ### 4. Bùi Thị Bích Phượng (`24021601`) — *Evaluation & KG Fusion*
-- [ ] Xây dựng bộ parser chuyển đổi chuỗi output sinh ra thành danh sách bộ ba `(subject, predicate, object)`.
-- [ ] Cài đặt bộ tính toán metric chuẩn: Full-Triple Micro/Macro Precision, Recall, F1 và Exact-Set Accuracy.
-- [ ] Kiểm thử unit test cho parser & evaluator trên các mẫu ground-truth của WebNLG+.
+- [x] Xây dựng bộ parser chuyển đổi chuỗi output sinh ra thành danh sách bộ ba `(subject, predicate, object)`.
+- [x] Cài đặt bộ tính toán metric chuẩn: Full-Triple Micro/Macro Precision, Recall, F1 và Exact-Set Accuracy.
+- [x] Kiểm thử unit test cho parser & evaluator trên các mẫu ground-truth của WebNLG+.
 
 ### 📝 Tổng kết Tuần 1
 | Thành viên | Trạng thái | % Hoàn thành | Sản phẩm / Link Commit | Ghi chú / Vướng mắc |
@@ -69,7 +69,7 @@
 | Doãn Duy Lợi | ✅ | 100% | `data/prepare_webnlg.py`, `tokenizer/train_bpe.py`, `train_scratch.py`, `data/README.md` | Hoàn thành sớm trước hạn bàn giao 19/11 & 21/11 |
 | Hoàng Lâm Tùng | ✅ | 100% | `models/scratch/*`, `tests/test_scratch_core.py` | Đã hoàn thiện core Transformer, Pre-LN, Weight Tying, unit tests & tương thích `train_scratch.py` |
 | Nguyễn Chí Phong | ✅ | 100% | `configs/config.yaml`, `models/llm_under6b/*` (`50801c7`) | Chốt 2 LLM `< 6B` (`Qwen3-4B-Instruct-2507` & `Llama-3.1-Nemotron-Nano-4B-v1.1`), đo VRAM 4-bit trên RTX 4090 & chạy baseline few-shot (`Qwen3-4B` Micro F1 = 0.2706) |
-| Bùi Thị Bích Phượng | ⬜ | 0% | | |
+| Bùi Thị Bích Phượng | ✅ | 100% | `eval/parser.py`, `eval/metrics.py`, `eval/hallucination_filter.py`, `tests/test_eval_parser.py`, `tests/test_metrics.py` (`267f79d`) | Đã hoàn thiện parser, metrics, hallucination filter & pass toàn bộ unit tests |
 
 ---
 
@@ -78,9 +78,9 @@
 **Đầu ra cần đạt (Deliverables):** Adapters LoRA đã lưu (`Qwen2.5-3B` & `Llama-3.2-3B`), Checkpoint Transformer cải tiến, Bảng loss so sánh.
 
 ### 1. Doãn Duy Lợi (`24021549`) — *Data Pipeline & Training Strategy*
-- [ ] Hoàn thiện module giải mã tự hồi quy: Greedy Search và Beam Search ($B=4$).
-- [ ] Triển khai chiến lược Curriculum Learning (lập lịch huấn luyện theo độ phức tạp 1, 2, $\ge 3$ triples).
-- [ ] Chạy huấn luyện Transformer cải tiến & lưu log loss so sánh với bản Baseline.
+- [x] Hoàn thiện module giải mã tự hồi quy: Greedy Search và Beam Search ($B=4$).
+- [x] Triển khai chiến lược Curriculum Learning (lập lịch huấn luyện theo độ phức tạp 1, 2, $\ge 3$ triples).
+- [x] Chạy huấn luyện Transformer cải tiến & lưu log loss so sánh với bản Baseline.
 
 ### 2. Hoàng Lâm Tùng (`24021661`) — *Transformer From-Scratch Core*
 - [ ] Tích hợp cải tiến **Pre-LayerNorm (Pre-LN)** vào các khối Encoder/Decoder.
@@ -101,7 +101,7 @@
 ### 📝 Tổng kết Tuần 2
 | Thành viên | Trạng thái | % Hoàn thành | Sản phẩm / Link Commit | Ghi chú / Vướng mắc |
 |------------|:----------:|:------------:|------------------------|---------------------|
-| Doãn Duy Lợi | ⬜ | 0% | | |
+| Doãn Duy Lợi | ✅ | 100% | `decode.py`, `train_scratch.py`, `scripts/compare_scratch_runs.py`, `tests/test_decode_and_curriculum.py`, `outputs/checkpoints/scratch_comparison.json` | Đã hoàn thiện Greedy & Beam Search ($B=4$), Curriculum Learning 3 giai đoạn (1 → 1-2 → full), và chạy so sánh Baseline vs Improved (`val_loss` giảm `9.3493` → `8.8163`, `-5.70%`) |
 | Hoàng Lâm Tùng | ⬜ | 0% | | |
 | Nguyễn Chí Phong | 🔄 | 50% | `scripts/sft_qlora.py`, `models/llm_under6b/prompts.py` (`50801c7`) | Đã xong pipeline QLoRA 4-bit (`r=64, alpha=128`), Target-only Loss Masking & CoT prompt; chuẩn bị chạy train & lưu best adapters trên RTX 4090 |
 | Bùi Thị Bích Phượng | ⬜ | 0% | | |

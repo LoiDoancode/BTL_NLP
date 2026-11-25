@@ -104,7 +104,8 @@ class MultiHeadAttention(nn.Module):
 
         norm_mask = self._normalize_mask(mask)
         context, attn_weights = self.attention(q_proj, k_proj, v_proj, mask=norm_mask)
-        self.last_attn_weights = attn_weights.detach()
+        if not self.training:
+            self.last_attn_weights = attn_weights.detach()
 
         context = context.transpose(1, 2).contiguous().view(batch_size, q_len, self.d_model)
         return self.w_o(context)

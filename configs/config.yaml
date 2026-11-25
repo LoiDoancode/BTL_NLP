@@ -28,6 +28,10 @@ scratch:
   warmup_steps: 4000
   epochs: 30
   beam_size: 4
+  curriculum:
+    enabled: true
+    stage1_ratio: 0.25   # 1 triple
+    stage2_ratio: 0.25   # 1-2 triples (phần còn lại 50% là toàn bộ 1, 2, >=3 triples)
   checkpoint_dir: "outputs/checkpoints/scratch"
 
 llm_under6b:

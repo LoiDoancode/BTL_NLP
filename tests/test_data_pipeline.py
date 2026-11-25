@@ -33,7 +33,7 @@ def test_prepare_webnlg_helpers():
     """Kiểm tra các hàm làm sạch chuỗi và định dạng bộ ba (Subject | Predicate | Object)."""
     assert clean_str('  "Aarhus, Denmark"  ') == "Aarhus, Denmark"
     assert parse_raw_triple('Aarhus_Airport | cityServed | "Aarhus, Denmark"') == (
-        "Aarhus_Airport",
+        "Aarhus Airport",
         "cityServed",
         "Aarhus, Denmark",
     )

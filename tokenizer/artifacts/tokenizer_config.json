@@ -1,5 +1,5 @@
 {
-  "vocab_size": 15562,
+  "vocab_size": 14105,
   "special_tokens": {
     "pad": {
       "token": "[PAD]",

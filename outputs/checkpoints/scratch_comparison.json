@@ -1,0 +1,92 @@
+{
+  "baseline": {
+    "log_path": "outputs\\checkpoints\\scratch_baseline\\train_log.json",
+    "run_name": "baseline",
+    "architecture": {
+      "model_desc": "Custom PyTorch Seq2SeqTransformer (Tùng & Lợi)",
+      "d_model": 128,
+      "n_heads": 4,
+      "num_encoder_layers": 2,
+      "num_decoder_layers": 2,
+      "use_pre_ln": false,
+      "weight_tying": false,
+      "curriculum": false,
+      "num_parameters": 6917066
+    },
+    "best_val_loss": 9.3493,
+    "final_train_loss": 9.3731,
+    "total_time_sec": 44.4
+  },
+  "improved": {
+    "log_path": "outputs\\checkpoints\\scratch_improved\\train_log.json",
+    "run_name": "improved_preln_wt_curriculum",
+    "architecture": {
+      "model_desc": "Custom PyTorch Seq2SeqTransformer (Tùng & Lợi)",
+      "d_model": 128,
+      "n_heads": 4,
+      "num_encoder_layers": 2,
+      "num_decoder_layers": 2,
+      "use_pre_ln": true,
+      "weight_tying": true,
+      "curriculum": true,
+      "num_parameters": 2918144
+    },
+    "best_val_loss": 8.8163,
+    "final_train_loss": 9.0255,
+    "total_time_sec": 28.28
+  },
+  "delta": {
+    "best_val_loss_diff": -0.5329,
+    "best_val_loss_rel_pct": -5.7
+  },
+  "epoch_by_epoch": [
+    {
+      "epoch": 1,
+      "baseline_train_loss": 9.509,
+      "baseline_val_loss": 9.4848,
+      "improved_train_loss": 9.5217,
+      "improved_val_loss": 9.3982,
+      "improved_curriculum_stage": "stage_1_easy"
+    },
+    {
+      "epoch": 2,
+      "baseline_train_loss": 9.4827,
+      "baseline_val_loss": 9.4714,
+      "improved_train_loss": 9.5014,
+      "improved_val_loss": 9.3342,
+      "improved_curriculum_stage": "stage_1_easy"
+    },
+    {
+      "epoch": 3,
+      "baseline_train_loss": 9.4707,
+      "baseline_val_loss": 9.4496,
+      "improved_train_loss": 9.3894,
+      "improved_val_loss": 9.2317,
+      "improved_curriculum_stage": "stage_2_medium"
+    },
+    {
+      "epoch": 4,
+      "baseline_train_loss": 9.4421,
+      "baseline_val_loss": 9.4209,
+      "improved_train_loss": 9.2961,
+      "improved_val_loss": 9.0978,
+      "improved_curriculum_stage": "stage_2_medium"
+    },
+    {
+      "epoch": 5,
+      "baseline_train_loss": 9.4138,
+      "baseline_val_loss": 9.3875,
+      "improved_train_loss": 9.1636,
+      "improved_val_loss": 8.9551,
+      "improved_curriculum_stage": "stage_3_full"
+    },
+    {
+      "epoch": 6,
+      "baseline_train_loss": 9.3731,
+      "baseline_val_loss": 9.3493,
+      "improved_train_loss": 9.0255,
+      "improved_val_loss": 8.8163,
+      "improved_curriculum_stage": "stage_3_full"
+    }
+  ]
+}

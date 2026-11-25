@@ -1,0 +1,98 @@
+{
+  "run_name": "improved_preln_wt_curriculum",
+  "hardware": {
+    "device": "cpu",
+    "device_name": "CPU"
+  },
+  "architecture": {
+    "model_desc": "Custom PyTorch Seq2SeqTransformer (Tùng & Lợi)",
+    "d_model": 128,
+    "n_heads": 4,
+    "num_encoder_layers": 2,
+    "num_decoder_layers": 2,
+    "use_pre_ln": true,
+    "weight_tying": true,
+    "curriculum": true,
+    "num_parameters": 2918144
+  },
+  "seed": 42,
+  "max_length": 256,
+  "vocab_size": 15562,
+  "epochs": 6,
+  "best_val_loss": 8.816333547352743,
+  "total_time_sec": 28.28,
+  "history": [
+    {
+      "epoch": 1,
+      "curriculum_stage": "stage_1_easy",
+      "num_train_samples": 7686,
+      "steps": 10,
+      "train_loss": 9.5217,
+      "val_loss": 9.3982,
+      "best_val_loss": 9.3982,
+      "lr": "3.49e-06",
+      "is_best": true,
+      "time_sec": 3.3
+    },
+    {
+      "epoch": 2,
+      "curriculum_stage": "stage_1_easy",
+      "num_train_samples": 7686,
+      "steps": 10,
+      "train_loss": 9.5014,
+      "val_loss": 9.3342,
+      "best_val_loss": 9.3342,
+      "lr": "6.99e-06",
+      "is_best": true,
+      "time_sec": 2.78
+    },
+    {
+      "epoch": 3,
+      "curriculum_stage": "stage_2_medium",
+      "num_train_samples": 14634,
+      "steps": 10,
+      "train_loss": 9.3894,
+      "val_loss": 9.2317,
+      "best_val_loss": 9.2317,
+      "lr": "1.05e-05",
+      "is_best": true,
+      "time_sec": 4.08
+    },
+    {
+      "epoch": 4,
+      "curriculum_stage": "stage_2_medium",
+      "num_train_samples": 14634,
+      "steps": 10,
+      "train_loss": 9.2961,
+      "val_loss": 9.0978,
+      "best_val_loss": 9.0978,
+      "lr": "1.40e-05",
+      "is_best": true,
+      "time_sec": 3.12
+    },
+    {
+      "epoch": 5,
+      "curriculum_stage": "stage_3_full",
+      "num_train_samples": 35426,
+      "steps": 10,
+      "train_loss": 9.1636,
+      "val_loss": 8.9551,
+      "best_val_loss": 8.9551,
+      "lr": "1.75e-05",
+      "is_best": true,
+      "time_sec": 7.75
+    },
+    {
+      "epoch": 6,
+      "curriculum_stage": "stage_3_full",
+      "num_train_samples": 35426,
+      "steps": 10,
+      "train_loss": 9.0255,
+      "val_loss": 8.8163,
+      "best_val_loss": 8.8163,
+      "lr": "2.10e-05",
+      "is_best": true,
+      "time_sec": 6.25
+    }
+  ]
+}

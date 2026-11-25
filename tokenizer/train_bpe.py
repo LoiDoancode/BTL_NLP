@@ -222,7 +222,7 @@ def train_bpe_tokenizer(
     wrapper.save(save_dir)
 
     sample_text = "The leader of Aarhus is Jacob Bundsgaard."
-    sample_target = "(Aarhus | leader | Jacob_Bundsgaard)"
+    sample_target = "(Aarhus | leader | Jacob Bundsgaard)"
 
     enc_text = wrapper.encode(sample_text)
     dec_text = wrapper.decode(enc_text["input_ids"])
