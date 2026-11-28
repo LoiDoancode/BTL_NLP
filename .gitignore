@@ -240,6 +240,7 @@ __marimo__/
 # Raw & processed datasets (regenerate via: python data/prepare_webnlg.py)
 data/raw/
 data/processed/*.json
+data/processed/*.jsonl
 data/processed/*.csv
 
 # Model checkpoints & large binary weights (do not commit >50MB files)
@@ -249,5 +250,9 @@ data/processed/*.csv
 *.bin
 *.safetensors
 outputs/checkpoints/scratch/
+outputs/checkpoints/llm_under6b/*/trainer_runs/
+outputs/checkpoints/llm_under6b/*/best_adapter/
+outputs/predictions/*.jsonl
+outputs/predictions/*.txt
 
 

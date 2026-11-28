@@ -31,7 +31,7 @@
 | Tuần | Thời gian | Giai đoạn | Mục tiêu chính | Trạng thái chung | Tiến độ (%) |
 |:----:|-----------|-----------|----------------|:----------------:|:-----------:|
 | **Tuần 1** | `11/11` – `17/11` | Setup & From-Scratch | Tiền xử lý WebNLG+ 2020, BPE Tokenizer, dựng lõi Transformer Scratch & Baseline | ✅ Hoàn thành | 100% |
-| **Tuần 2** | `18/11` – `24/11` | SFT 2 LLMs & Cải tiến | Pipeline QLoRA (`Qwen3-4B`, `Llama-3.1-Nemotron-Nano-4B`), Pre-LN, Weight Tying, CoT Prompting | 🔄 Đang thực hiện | 38% |
+| **Tuần 2** | `18/11` – `24/11` | SFT 2 LLMs & Cải tiến | Pipeline QLoRA (`Qwen3-4B`, `Llama-3.1-Nemotron-Nano-4B`), Pre-LN, Weight Tying, CoT Prompting | 🔄 Đang thực hiện | 50% |
 | **Tuần 3** | `25/11` – `01/12` | Đánh giá & KG Fusion | Đo Micro/Macro P/R/F1, Exact-Set, lọc ảo giác, hợp nhất KG, Error Analysis | ⬜ Chưa bắt đầu | 0% |
 | **Tuần 4** | `02/12` – `08/12` | Báo cáo & Thuyết trình | Hoàn thiện báo cáo IEEE 6 trang (EN), Slide bảo vệ, chuẩn hóa GitHub repo | ⬜ Chưa bắt đầu | 0% |
 
@@ -90,8 +90,8 @@
 ### 3. Nguyễn Chí Phong (`24020268`) — *Pretrained LLMs Fine-tuning*
 - [x] Xây dựng pipeline SFT & QLoRA hoàn chỉnh cho `Qwen/Qwen3-4B-Instruct-2507` và `nvidia/Llama-3.1-Nemotron-Nano-4B-v1.1`.
 - [x] Triển khai kỹ thuật **Target-only Loss Masking** (chỉ tính loss trên phần output triples).
-- [ ] Thử nghiệm **Entity-Guided CoT Prompting** & tinh chỉnh siêu tham số LoRA ($r$, $\alpha$, lr, scheduler).
-- [ ] Lưu lại các LoRA adapters tốt nhất & ghi nhận chi phí phần cứng (Peak VRAM, thời gian train).
+- [x] Thử nghiệm **Entity-Guided CoT Prompting** & tinh chỉnh siêu tham số LoRA ($r$, $\alpha$, lr, scheduler).
+- [x] Lưu lại các LoRA adapters tốt nhất & ghi nhận chi phí phần cứng (Peak VRAM, thời gian train).
 
 ### 4. Bùi Thị Bích Phượng (`24021601`) — *Evaluation & KG Fusion*
 - [ ] Xây dựng **Entity Hallucination Filter** (bộ lọc loại bỏ bộ ba chứa thực thể/quan hệ bịa đặt).
@@ -103,7 +103,7 @@
 |------------|:----------:|:------------:|------------------------|---------------------|
 | Doãn Duy Lợi | ✅ | 100% | `decode.py`, `train_scratch.py`, `scripts/compare_scratch_runs.py`, `tests/test_decode_and_curriculum.py`, `outputs/checkpoints/scratch_comparison.json` | Đã hoàn thiện Greedy & Beam Search ($B=4$), Curriculum Learning 3 giai đoạn (1 → 1-2 → full), và chạy so sánh Baseline vs Improved (`val_loss` giảm `9.3493` → `8.8163`, `-5.70%`) |
 | Hoàng Lâm Tùng | ⬜ | 0% | | |
-| Nguyễn Chí Phong | 🔄 | 50% | `scripts/sft_qlora.py`, `models/llm_under6b/prompts.py` (`50801c7`) | Đã xong pipeline QLoRA 4-bit (`r=64, alpha=128`), Target-only Loss Masking & CoT prompt; chuẩn bị chạy train & lưu best adapters trên RTX 4090 |
+| Nguyễn Chí Phong | ✅ | 100% | `scripts/sft_qlora.py`, `scripts/compare_llm_runs.py`, `outputs/checkpoints/llm_comparison.json` | Hoàn tất SFT QLoRA full `35,426` mẫu trên RTX 4090: `Qwen3-4B_cot` tốt nhất (`val_loss=0.01298`, Micro F1 `0.5683`, `13.45 GB` VRAM), `Qwen3-4B_std` (`0.5584`), `Qwen3-4B_r16` (`0.5536`), `Nemotron-4B_std` (`0.5411`) |
 | Bùi Thị Bích Phượng | ⬜ | 0% | | |
 
 ---
